@@ -2,6 +2,7 @@ import os
 import os.path as osp
 
 import open_clip
+from open_clip.model import get_cast_dtype
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
@@ -32,14 +33,21 @@ def load_clip_to_cpu(cfg):
         state_dict = torch.load(model_path, map_location="cpu")
 
     model = clip.build_model(state_dict or model.state_dict())
-    model2 = load_clip_to_cpu2(cfg)
     print(model)
-    print(model2)
 
     return model
 
+
+# TODO: Load model name precision device from cfg
 def load_clip_to_cpu2(cfg):
-    model = open_clip.load_openai_model('RN50')
+    model, _, transform = open_clip.create_model_and_transforms('ViT-B-32', 'openai', 'fp16', 'cuda')
+    model.dtype = get_cast_dtype("fp16")
+    # model.visual.input_resolution = model.visual.image_size
+    model.visual.input_resolution = 224
+    # model.transformer.training = False
+    # TODO: tokenizer from open_clip!
+    # TODO: add yaml file for roberta + test on caltech
+    print(model)
     return model
 
 
@@ -110,6 +118,7 @@ class PromptLearner(nn.Module):
 
         tokenized_prompts = torch.cat([clip.tokenize(p) for p in prompts])
         with torch.no_grad():
+            tokenized_prompts = tokenized_prompts.to("cuda") # only when using open_clip
             embedding = clip_model.token_embedding(tokenized_prompts).type(dtype)
 
         # These token vectors will be saved when in save_model(),
@@ -233,7 +242,9 @@ class CoOp(TrainerX):
         classnames = self.dm.dataset.classnames
 
         print(f"Loading CLIP (backbone: {cfg.MODEL.BACKBONE.NAME})")
+        # clip_model = load_clip_to_cpu2(cfg)
         clip_model = load_clip_to_cpu(cfg)
+        clip_model = clip_model.to("cuda")
         
         if cfg.TRAINER.COOP.PREC == "fp32" or cfg.TRAINER.COOP.PREC == "amp":
             # CLIP's default precision is fp16
