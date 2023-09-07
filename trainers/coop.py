@@ -13,7 +13,7 @@ from dassl.metrics import compute_accuracy
 from dassl.utils import load_pretrained_weights, load_checkpoint
 from dassl.optim import build_optimizer, build_lr_scheduler
 
-from clip import clip
+from clip import clip # this is old clip
 from clip.simple_tokenizer import SimpleTokenizer as _Tokenizer
 
 _tokenizer = _Tokenizer()
@@ -39,16 +39,45 @@ def load_clip_to_cpu(cfg):
 
 
 # TODO: Load model name precision device from cfg
+# TODO Load pretrained from model or from cfg
 def load_clip_to_cpu2(cfg):
-    model, _, transform = open_clip.create_model_and_transforms('ViT-B-32', 'openai', 'fp16', 'cuda')
+    backbone = cfg.MODEL.BACKBONE.NAME
+    model_name = get_model_name_open_clip(backbone) # openai , laion5b_s13b_b90k
+    model, _, transform = open_clip.create_model_and_transforms(model_name, pretrained= "laion5b_s13b_b90k", precision='fp16', device='cuda')
     model.dtype = get_cast_dtype("fp16")
     # model.visual.input_resolution = model.visual.image_size
     model.visual.input_resolution = 224
     # model.transformer.training = False
     # TODO: tokenizer from open_clip!
+    global _tokenizer
+    _tokenizer = open_clip.get_tokenizer(model_name)
     # TODO: add yaml file for roberta + test on caltech
+    # TODO REMOVE from here only for hf xlm roberta model
+    # model.ln_final = model.visual.ln_post
+    # model.token_embedding = model.text.transformer.embeddings.token_type_embeddings
     print(model)
     return model
+
+
+def get_model_name_open_clip(backbone: str) -> str:
+    open_clip_models = {
+        # Original CLIP models
+        "RN50": "RN50",
+        "RN101": "RN101",
+        "RN50x4": "RN50x4",
+        "RN50x16": "RN50x16",
+        "RN50x64": "RN50x64",
+        "ViT-B/32": "ViT-B-32",
+        "ViT-B/16": "ViT-B-16",
+        "ViT-L/14": "ViT-L-14",
+        "ViT-L/14@336px": "ViT-L-14-336",
+        # Open CLIP models
+        "xlm-roberta-base-ViT-B-32": "xlm-roberta-base-ViT-B-32"
+    }
+
+    model_name = open_clip_models[backbone]
+    assert model_name is not None, "This backbone is not available in our map of open clip models"
+    return open_clip_models[backbone]
 
 
 class TextEncoder(nn.Module):
@@ -72,6 +101,35 @@ class TextEncoder(nn.Module):
         x = x[torch.arange(x.shape[0]), tokenized_prompts.argmax(dim=-1)] @ self.text_projection
 
         return x
+
+
+# CUSTOM
+class HFTextEncoder(nn.Module):
+    def __init__(self, clip_model):
+        super().__init__()
+        self.transformer = clip_model.text.transformer
+        self.positional_embedding = clip_model.text.transformer.embeddings.position_embeddings
+        self.ln_final = clip_model.ln_final
+        self.text_projection = clip_model.text.proj
+        self.dtype = clip_model.dtype
+
+    def forward(self, prompts, tokenized_prompts):
+        x = prompts + self.positional_embedding.type(self.dtype)
+        # x = x.permute(1, 0, 2)  # NLD -> LND
+        # x = self.transformer(x)
+        # x = x.permute(1, 0, 2)  # LND -> NLD
+        # x = self.ln_final(x).type(self.dtype)
+
+        # x.shape = [batch_size, n_ctx, transformer.width]
+        # take features from the eot embedding (eot_token is the highest number in each sequence)
+        # x = x[torch.arange(x.shape[0]), tokenized_prompts.argmax(dim=-1)] @ self.text_projection
+        #------------------------------------------------------------
+        attn_mask = (x != self.config.pad_token_id).long()
+        out = self.transformer(input_ids=x, attention_mask=attn_mask)
+        pooled_out = self.pooler(out, attn_mask)
+        projected = self.proj(pooled_out)
+
+        return projected
 
 
 class PromptLearner(nn.Module):
@@ -113,12 +171,14 @@ class PromptLearner(nn.Module):
         self.ctx = nn.Parameter(ctx_vectors)  # to be optimized
 
         classnames = [name.replace("_", " ") for name in classnames]
-        name_lens = [len(_tokenizer.encode(name)) for name in classnames]
+        # name_lens = [len(_tokenizer.encode(name)) for name in classnames]
+        name_lens = [len(_tokenizer(name)) for name in classnames]
         prompts = [prompt_prefix + " " + name + "." for name in classnames]
 
         tokenized_prompts = torch.cat([clip.tokenize(p) for p in prompts])
         with torch.no_grad():
             tokenized_prompts = tokenized_prompts.to("cuda") # only when using open_clip
+            # clip_model.text.transformer.resize_token_embeddings(len(_tokenizer)) # really on a grasp here
             embedding = clip_model.token_embedding(tokenized_prompts).type(dtype)
 
         # These token vectors will be saved when in save_model(),
@@ -206,7 +266,7 @@ class CustomCLIP(nn.Module):
         self.prompt_learner = PromptLearner(cfg, classnames, clip_model)
         self.tokenized_prompts = self.prompt_learner.tokenized_prompts
         self.image_encoder = clip_model.visual
-        self.text_encoder = TextEncoder(clip_model)
+        self.text_encoder = TextEncoder(clip_model) # Custom: HFTextEncoder
         self.logit_scale = clip_model.logit_scale
         self.dtype = clip_model.dtype
 
@@ -242,8 +302,8 @@ class CoOp(TrainerX):
         classnames = self.dm.dataset.classnames
 
         print(f"Loading CLIP (backbone: {cfg.MODEL.BACKBONE.NAME})")
-        # clip_model = load_clip_to_cpu2(cfg)
-        clip_model = load_clip_to_cpu(cfg)
+        clip_model = load_clip_to_cpu2(cfg)
+        # clip_model = load_clip_to_cpu(cfg)
         clip_model = clip_model.to("cuda")
         
         if cfg.TRAINER.COOP.PREC == "fp32" or cfg.TRAINER.COOP.PREC == "amp":
