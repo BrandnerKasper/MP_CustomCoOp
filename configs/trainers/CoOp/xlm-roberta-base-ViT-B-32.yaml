@@ -3,7 +3,7 @@ DATALOADER:
     BATCH_SIZE: 32
   TEST:
     BATCH_SIZE: 100
-  NUM_WORKERS: 4
+  NUM_WORKERS: 0
 
 INPUT:
   SIZE: (224, 224)
@@ -26,4 +26,4 @@ TRAIN:
 
 MODEL:
   BACKBONE:
-    NAME: "RN101"
+    NAME: "xlm-roberta-base-ViT-B-32"
