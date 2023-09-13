@@ -154,10 +154,10 @@ def main(args):
         trainer.train()
 
 
-# rn101, rn50, vit_b32, xlm-roberta-base-ViT-B-32
+# rn101, rn50, vit_b32, vit_b16, xlm-roberta-base-ViT-B-32
 if __name__ == "__main__":
     args = Arguments("CoOp", "/home/brandnerkasper/Uni/MP/MP_CustomCoOp/data", "caltech101",
-                      "xlm-roberta-base-ViT-B-32", "end", 16, 1, False, "output/Caltech")
+                      "roberta-ViT-B-32", "end", 16, 1, False, "output/Caltech")
 
     setup_logger(args.output_dir)
 

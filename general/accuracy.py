@@ -4,7 +4,7 @@ import os
 # Open the log file for reading
 current_dir = os.getcwd()
 data_path = "/output/Caltech/"
-file_name = 'open_clip_vit_b_32_laion2b_s34b_b79k'
+file_name = 'open_clip_RN101'
 full_path = current_dir + data_path + file_name + '.txt'
 lines_with_accuracy = []
 accuracies = []

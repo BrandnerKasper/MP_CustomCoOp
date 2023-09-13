@@ -43,18 +43,17 @@ def load_clip_to_cpu(cfg):
 def load_clip_to_cpu2(cfg):
     backbone = cfg.MODEL.BACKBONE.NAME
     model_name = get_model_name_open_clip(backbone) # openai , laion5b_s13b_b90k
-    model, _, transform = open_clip.create_model_and_transforms(model_name, pretrained= "laion5b_s13b_b90k", precision='fp16', device='cuda')
+    model, _, transform = open_clip.create_model_and_transforms(model_name, pretrained= "laion2b_s12b_b32k", precision='fp16', device='cuda')
     model.dtype = get_cast_dtype("fp16")
-    # model.visual.input_resolution = model.visual.image_size
+    # model.visual.input_resolution = model.visual.image_size #TODO sometimes this is a tuple sometimes it is a int -> we always want the int value
     model.visual.input_resolution = 224
-    # model.transformer.training = False
     # TODO: tokenizer from open_clip!
     global _tokenizer
     _tokenizer = open_clip.get_tokenizer(model_name)
     # TODO: add yaml file for roberta + test on caltech
     # TODO REMOVE from here only for hf xlm roberta model
-    # model.ln_final = model.visual.ln_post
-    # model.token_embedding = model.text.transformer.embeddings.token_type_embeddings
+    model.ln_final = model.visual.ln_post
+    model.token_embedding = model.text.transformer.embeddings.word_embeddings
     print(model)
     return model
 
@@ -72,7 +71,8 @@ def get_model_name_open_clip(backbone: str) -> str:
         "ViT-L/14": "ViT-L-14",
         "ViT-L/14@336px": "ViT-L-14-336",
         # Open CLIP models
-        "xlm-roberta-base-ViT-B-32": "xlm-roberta-base-ViT-B-32"
+        "xlm-roberta-base-ViT-B-32": "xlm-roberta-base-ViT-B-32",
+        "roberta-ViT-B-32": "roberta-ViT-B-32"
     }
 
     model_name = open_clip_models[backbone]
@@ -107,14 +107,17 @@ class TextEncoder(nn.Module):
 class HFTextEncoder(nn.Module):
     def __init__(self, clip_model):
         super().__init__()
+        self.config = clip_model.text.config
         self.transformer = clip_model.text.transformer
+        self.pooler = clip_model.text.pooler
+        self.proj = clip_model.text.proj
+
+        # self.ln_final = clip_model.ln_final
         self.positional_embedding = clip_model.text.transformer.embeddings.position_embeddings
-        self.ln_final = clip_model.ln_final
-        self.text_projection = clip_model.text.proj
         self.dtype = clip_model.dtype
 
     def forward(self, prompts, tokenized_prompts):
-        x = prompts + self.positional_embedding.type(self.dtype)
+        # x = prompts + self.positional_embedding.type(self.dtype)
         # x = x.permute(1, 0, 2)  # NLD -> LND
         # x = self.transformer(x)
         # x = x.permute(1, 0, 2)  # LND -> NLD
@@ -124,10 +127,11 @@ class HFTextEncoder(nn.Module):
         # take features from the eot embedding (eot_token is the highest number in each sequence)
         # x = x[torch.arange(x.shape[0]), tokenized_prompts.argmax(dim=-1)] @ self.text_projection
         #------------------------------------------------------------
-        attn_mask = (x != self.config.pad_token_id).long()
-        out = self.transformer(input_ids=x, attention_mask=attn_mask)
-        pooled_out = self.pooler(out, attn_mask)
-        projected = self.proj(pooled_out)
+        attn_mask = (tokenized_prompts != self.config.pad_token_id).long()
+        with torch.cuda.amp.autocast(True):
+            out = self.transformer(inputs_embeds=prompts, attention_mask=attn_mask)
+            pooled_out = self.pooler(out, attn_mask)
+            projected = self.proj(pooled_out)
 
         return projected
 
@@ -172,7 +176,7 @@ class PromptLearner(nn.Module):
 
         classnames = [name.replace("_", " ") for name in classnames]
         # name_lens = [len(_tokenizer.encode(name)) for name in classnames]
-        name_lens = [len(_tokenizer(name)) for name in classnames]
+        name_lens = [len(_tokenizer(name)) for name in classnames] # TODO: _tokenizer.encode(name) for CLIP and _tokenizer(name) for Open CLIP
         prompts = [prompt_prefix + " " + name + "." for name in classnames]
 
         tokenized_prompts = torch.cat([clip.tokenize(p) for p in prompts])
@@ -266,7 +270,7 @@ class CustomCLIP(nn.Module):
         self.prompt_learner = PromptLearner(cfg, classnames, clip_model)
         self.tokenized_prompts = self.prompt_learner.tokenized_prompts
         self.image_encoder = clip_model.visual
-        self.text_encoder = TextEncoder(clip_model) # Custom: HFTextEncoder
+        self.text_encoder = HFTextEncoder(clip_model) # TODO change btw old (TextEncoder) clip models and new ones (HFTextEncoder)
         self.logit_scale = clip_model.logit_scale
         self.dtype = clip_model.dtype
 

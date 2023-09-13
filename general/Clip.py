@@ -17,3 +17,4 @@ print("hi")
 
 # open_clip.list_openai_models()
 # ['RN50', 'RN50-quickgelu', 'RN101', 'RN101-quickgelu', 'RN50x4', 'RN50x16', 'RN50x64', 'ViT-B-32', 'ViT-B-32-quickgelu', 'ViT-B-16', 'ViT-L-14', 'ViT-L-14-336']
+
