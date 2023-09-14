@@ -27,7 +27,7 @@ class Caltech101(DatasetBase):
         self.image_dir = os.path.join(self.dataset_dir, "101_ObjectCategories")
         self.split_path = os.path.join(self.dataset_dir, "split_zhou_Caltech101.json")
         self.split_fewshot_dir = os.path.join(self.dataset_dir, "split_fewshot")
-        mkdir_if_missing(self.split_fewshot_dir)
+        # mkdir_if_missing(self.split_fewshot_dir)
 
         if os.path.exists(self.split_path):
             train, val, test = OxfordPets.read_split(self.split_path, self.image_dir)
@@ -49,9 +49,9 @@ class Caltech101(DatasetBase):
                 train = self.generate_fewshot_dataset(train, num_shots=num_shots)
                 val = self.generate_fewshot_dataset(val, num_shots=min(num_shots, 4))
                 data = {"train": train, "val": val}
-                print(f"Saving preprocessed few-shot data to {preprocessed}")
-                with open(preprocessed, "wb") as file:
-                    pickle.dump(data, file, protocol=pickle.HIGHEST_PROTOCOL)
+                # print(f"Saving preprocessed few-shot data to {preprocessed}")
+                # with open(preprocessed, "wb") as file:
+                #     pickle.dump(data, file, protocol=pickle.HIGHEST_PROTOCOL)
 
         subsample = cfg.DATASET.SUBSAMPLE_CLASSES
         train, val, test = OxfordPets.subsample_classes(train, val, test, subsample=subsample)
