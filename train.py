@@ -1,3 +1,5 @@
+import argparse
+
 import torch
 
 from dassl.utils import setup_logger, set_random_seed, collect_env_info
@@ -156,7 +158,20 @@ def main(args):
 
 # rn101, rn50, vit_b32, vit_b16, xlm-roberta-base-ViT-B-32
 if __name__ == "__main__":
-    args = Arguments("CoOp", "/home/brandnerkasper/Uni/MP/MP_CustomCoOp/data", "caltech101",
+    parser = argparse.ArgumentParser(description="A simple path string parser")
+
+    # Add a positional argument for the path string
+    parser.add_argument("path", type=str, help="The path string to parse")
+
+    # Parse the command-line arguments
+    parser_arg = parser.parse_args()
+
+    # Access the parsed path string
+    path_str = parser_arg.path
+
+    # Print the parsed path string
+    print("Parsed Path String:", path_str) # /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data
+    args = Arguments("CoOp", path_str, "caltech101",
                       "roberta-ViT-B-32", "end", 16, 1, False, "output/Caltech")
 
     setup_logger(args.output_dir)
