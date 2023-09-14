@@ -42,8 +42,8 @@ def load_clip_to_cpu(cfg):
 # TODO Load pretrained from model or from cfg
 def load_clip_to_cpu2(cfg):
     backbone = cfg.MODEL.BACKBONE.NAME
-    model_name = get_model_name_open_clip(backbone) # openai , laion5b_s13b_b90k
-    model, _, transform = open_clip.create_model_and_transforms(model_name, pretrained= "laion2b_s12b_b32k", precision='fp16', device='cuda')
+    model_name = get_model_name_open_clip(backbone) # openai , xlm: laion5b_s13b_b90k, roberta: laion2b_s12b_b32k
+    model, _, transform = open_clip.create_model_and_transforms(model_name, pretrained= "laion5b_s13b_b90k", precision='fp16', device='cuda')
     model.dtype = get_cast_dtype("fp16")
     # model.visual.input_resolution = model.visual.image_size #TODO sometimes this is a tuple sometimes it is a int -> we always want the int value
     model.visual.input_resolution = 224

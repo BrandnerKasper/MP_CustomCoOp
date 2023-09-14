@@ -172,7 +172,7 @@ if __name__ == "__main__":
     # Print the parsed path string
     print("Parsed Path String:", path_str) # /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data
     args = Arguments("CoOp", path_str, "caltech101",
-                      "roberta-ViT-B-32", "end", 16, 1, False, "output/Caltech")
+                      "xlm-roberta-base-ViT-B-32", "end", 16, 1, False, "output/Caltech")
 
     setup_logger(args.output_dir)
 
