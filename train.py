@@ -77,6 +77,13 @@ def reset_cfg(cfg, args):
     if args.head:
         cfg.MODEL.HEAD.NAME = args.head
 
+    # Custom
+    cfg.OPEN_CLIP = args.open_clip
+        # set_open_clip()
+
+    if args.pretrained:
+        cfg.PRETRAINED = pretrained
+
 
 def extend_cfg(cfg):
     """
@@ -136,7 +143,6 @@ def main(args):
     if cfg.SEED >= 0:
         print("Setting fixed seed: {}".format(cfg.SEED))
         set_random_seed(cfg.SEED)
-    # setup_logger(cfg.OUTPUT_DIR)
 
     if torch.cuda.is_available() and cfg.USE_CUDA:
         torch.backends.cudnn.benchmark = True
@@ -156,28 +162,39 @@ def main(args):
         trainer.train()
 
 
-# rn101, rn50, vit_b32, vit_b16, xlm-roberta-base-ViT-B-32
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="A simple path string parser")
+    parser = argparse.ArgumentParser(description="A simple parser for the path to the dataset, "
+                                                 "which backbone to use and if you like to use "
+                                                 "CLIP or Open CLIP.")
 
-    # Add a positional argument for the path string
-    parser.add_argument("path", type=str, help="The path string to parse")
+    parser.add_argument("path", type=str, help='The path to the dataset in relation to this script')
+    parser.add_argument("backbone", type=str, help='Which backbone to use, e.g. ResNet 50 or '
+                                                   'ViT-B-32')
+    parser.add_argument("--open_Clip", '-o', action="store_true", default=False,
+                        help='Set to true if you like to use the Open Clip, else use Clip')
+    parser.add_argument("--pretrained", '-p', type=str, default='openai',
+                        help='The same backbones (Vit-B-32) are pretrained on different datasets. '
+                             'This is only the case for open clip backbones')
 
     # Parse the command-line arguments
     parser_arg = parser.parse_args()
 
     # Access the parsed path string
-    path_str = parser_arg.path
+    path_to_data = parser_arg.path  # /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data
+    backbone = parser_arg.backbone  # rn101, rn50, vit_b32, vit_b16, xlm-roberta-base-ViT-B-32
+    open_Clip = parser_arg.open_Clip  # true for open_clip, false for clip
+    pretrained = parser_arg.pretrained  # openai, laion5b_s13b_b90k, laion2b_s12b_b32k
 
-    # Print the parsed path string
-    print("Parsed Path String:", path_str) # /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data
-    args = Arguments("CoOp", path_str, "caltech101",
-                      "xlm-roberta-base-ViT-B-32", "end", 16, 1, False, "output/Caltech")
+    # print(f"Path to dataset {path_to_data}, backbone {backbone}, openclip {open_Clip}")
+
+    # For the moment we only support CoOp and the caltech101 dataset
+    args = Arguments("CoOp", path_to_data, "caltech101", backbone, "end", 16, 1, False,
+                     "output/Caltech", open_Clip, pretrained)
+    print(f"arguments: {args}")
 
     setup_logger(args.output_dir)
 
     for i in 1, 2, 3:
         args.seed = i
         args.output_dir = args.output_dir + "/" + str(i)
-        print(f"args2: {args}")
         main(args)

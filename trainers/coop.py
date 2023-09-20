@@ -38,23 +38,19 @@ def load_clip_to_cpu(cfg):
     return model
 
 
-# TODO: Load model name precision device from cfg
-# TODO Load pretrained from model or from cfg
-def load_clip_to_cpu2(cfg):
+def load_open_clip_to_cpu(cfg):
     backbone = cfg.MODEL.BACKBONE.NAME
+    pretrained = cfg.PRETRAINED
     model_name = get_model_name_open_clip(backbone) # openai , xlm: laion5b_s13b_b90k, roberta: laion2b_s12b_b32k
-    model, _, transform = open_clip.create_model_and_transforms(model_name, pretrained= "laion5b_s13b_b90k", precision='fp16', device='cuda')
+    model, _, transform = open_clip.create_model_and_transforms(model_name, pretrained=pretrained, precision='fp16', device='cuda')
     model.dtype = get_cast_dtype("fp16")
     # model.visual.input_resolution = model.visual.image_size #TODO sometimes this is a tuple sometimes it is a int -> we always want the int value
     model.visual.input_resolution = 224
-    # TODO: tokenizer from open_clip!
     global _tokenizer
     _tokenizer = open_clip.get_tokenizer(model_name)
-    # TODO: add yaml file for roberta + test on caltech
-    # TODO REMOVE from here only for hf xlm roberta model
-    model.ln_final = model.visual.ln_post
-    model.token_embedding = model.text.transformer.embeddings.word_embeddings
-    print(model)
+    if check_for_hf_model(model_name):
+        model.ln_final = model.visual.ln_post
+        model.token_embedding = model.text.transformer.embeddings.word_embeddings
     return model
 
 
@@ -78,6 +74,16 @@ def get_model_name_open_clip(backbone: str) -> str:
     model_name = open_clip_models[backbone]
     assert model_name is not None, "This backbone is not available in our map of open clip models"
     return open_clip_models[backbone]
+
+
+def check_for_hf_model(model_name: str) -> bool:
+    match model_name:
+        case "xlm-roberta-base-ViT-B-32":
+            return True
+        case "roberta-ViT-B-32":
+            return True
+        case _:
+            return False
 
 
 class TextEncoder(nn.Module):
@@ -175,14 +181,15 @@ class PromptLearner(nn.Module):
         self.ctx = nn.Parameter(ctx_vectors)  # to be optimized
 
         classnames = [name.replace("_", " ") for name in classnames]
-        # name_lens = [len(_tokenizer.encode(name)) for name in classnames]
-        name_lens = [len(_tokenizer(name)) for name in classnames] # TODO: _tokenizer.encode(name) for CLIP and _tokenizer(name) for Open CLIP
+        if cfg.OPEN_CLIP:
+            name_lens = [len(_tokenizer(name)) for name in classnames]
+        else:
+            name_lens = [len(_tokenizer.encode(name)) for name in classnames]
         prompts = [prompt_prefix + " " + name + "." for name in classnames]
 
         tokenized_prompts = torch.cat([clip.tokenize(p) for p in prompts])
         with torch.no_grad():
-            tokenized_prompts = tokenized_prompts.to("cuda") # only when using open_clip
-            # clip_model.text.transformer.resize_token_embeddings(len(_tokenizer)) # really on a grasp here
+            tokenized_prompts = tokenized_prompts.to("cuda") # TODO ?? only when using open_clip
             embedding = clip_model.token_embedding(tokenized_prompts).type(dtype)
 
         # These token vectors will be saved when in save_model(),
@@ -270,7 +277,10 @@ class CustomCLIP(nn.Module):
         self.prompt_learner = PromptLearner(cfg, classnames, clip_model)
         self.tokenized_prompts = self.prompt_learner.tokenized_prompts
         self.image_encoder = clip_model.visual
-        self.text_encoder = HFTextEncoder(clip_model) # TODO change btw old (TextEncoder) clip models and new ones (HFTextEncoder)
+        if cfg.OPEN_CLIP:
+            self.text_encoder = HFTextEncoder(clip_model)
+        else:
+            self.text_encoder = TextEncoder(clip_model)
         self.logit_scale = clip_model.logit_scale
         self.dtype = clip_model.dtype
 
@@ -306,8 +316,10 @@ class CoOp(TrainerX):
         classnames = self.dm.dataset.classnames
 
         print(f"Loading CLIP (backbone: {cfg.MODEL.BACKBONE.NAME})")
-        clip_model = load_clip_to_cpu2(cfg)
-        # clip_model = load_clip_to_cpu(cfg)
+        if cfg.OPEN_CLIP:
+            clip_model = load_open_clip_to_cpu(cfg)
+        else:
+            clip_model = load_clip_to_cpu(cfg)
         clip_model = clip_model.to("cuda")
         
         if cfg.TRAINER.COOP.PREC == "fp32" or cfg.TRAINER.COOP.PREC == "amp":
