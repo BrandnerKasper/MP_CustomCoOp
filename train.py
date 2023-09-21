@@ -82,8 +82,8 @@ def reset_cfg(cfg, args):
     if args.trainer:
         cfg.TRAINER.NAME = args.trainer
 
-    if args.backbone:
-        cfg.MODEL.BACKBONE.NAME = args.backbone
+    # if args.backbone:
+    #     cfg.MODEL.BACKBONE.NAME = args.backbone
 
     if args.head:
         cfg.MODEL.HEAD.NAME = args.head
