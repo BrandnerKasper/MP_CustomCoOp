@@ -170,7 +170,7 @@ def main(args):
         return
 
     if not args.no_train:
-        trainer.train(False)
+        trainer.train()
 
 
 if __name__ == "__main__":

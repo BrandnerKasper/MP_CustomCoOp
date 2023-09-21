@@ -280,7 +280,7 @@ class CustomCLIP(nn.Module):
         self.prompt_learner = PromptLearner(cfg, classnames, clip_model)
         self.tokenized_prompts = self.prompt_learner.tokenized_prompts
         self.image_encoder = clip_model.visual
-        if cfg.OPEN_CLIP:
+        if check_for_hf_model(cfg.MODEL.BACKBONE.NAME):
             self.text_encoder = HFTextEncoder(clip_model)
         else:
             self.text_encoder = TextEncoder(clip_model)
