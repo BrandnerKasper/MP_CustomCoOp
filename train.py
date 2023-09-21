@@ -164,13 +164,13 @@ def main(args):
 
     trainer = build_trainer(cfg)
 
-    # if args.eval_only:
-    #     trainer.load_model(args.model_dir, epoch=args.load_epoch)
-    #     trainer.test()
-    #     return
+    if args.eval_only:
+        trainer.load_model(args.model_dir, epoch=args.load_epoch)
+        trainer.test()
+        return
 
     if not args.no_train:
-        trainer.train()
+        trainer.train(False)
 
 
 if __name__ == "__main__":
