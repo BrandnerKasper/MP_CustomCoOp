@@ -68,8 +68,7 @@ def get_model_name_open_clip(backbone: str) -> str:
         "ViT-L/14@336px": "ViT-L-14-336",
         # Open CLIP models
         "xlm-roberta-base-ViT-B-32": "xlm-roberta-base-ViT-B-32",
-        "roberta-ViT-B-32": "roberta-ViT-B-32",
-        "xlm-roberta-large-ViT-H-14": "xlm-roberta-large-ViT-H-14"
+        "roberta-ViT-B-32": "roberta-ViT-B-32"
     }
 
     model_name = open_clip_models[backbone]
@@ -82,8 +81,6 @@ def check_for_hf_model(model_name: str) -> bool:
         case "xlm-roberta-base-ViT-B-32":
             return True
         case "roberta-ViT-B-32":
-            return True
-        case "xlm-roberta-large-ViT-H-14":
             return True
         case _:
             return False

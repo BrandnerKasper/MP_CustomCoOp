@@ -33,8 +33,7 @@ def main() -> None:
                                              "commonpool_s_basic_s13m_b4k",
                                              "commonpool_s_s13m_b4k"],
         tuple(["roberta-vit-b32"]): ["laion2b_s12b_b32k"],
-        tuple(["xlm-roberta-base-vit-b32"]): ["laion5b_s13b_b90k"],
-        tuple(["xlm-roberta-large-vit-h14"]): ["frozen_laion5b_s13b_b90k"]
+        tuple(["xlm-roberta-base-vit-b32"]): ["laion5b_s13b_b90k"]
     }
 
     print("All available clip models with different configs (different number of epochs) (no different pretrained tags!)")
