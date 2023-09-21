@@ -1,9 +1,19 @@
+import errno
 import os
 import sys
 import time
 import os.path as osp
 __all__ = ["Logger", "setup_logger"]
 
+
+def mkdir_if_missing(dirname):
+    """Create dirname if it is missing."""
+    if not osp.exists(dirname):
+        try:
+            os.makedirs(dirname)
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
 
 class Logger:
     """Write console output to external text file.
@@ -25,7 +35,7 @@ class Logger:
         self.console = sys.stdout
         self.file = None
         if fpath is not None:
-            print("Cant make a file here!")
+            mkdir_if_missing(osp.dirname(fpath))
             self.file = open(fpath, "w")
 
     def __del__(self):
