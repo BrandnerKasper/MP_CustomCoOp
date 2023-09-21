@@ -2,12 +2,13 @@ import argparse
 
 import torch
 
-from dassl.utils import setup_logger, set_random_seed, collect_env_info
+from dassl.utils import set_random_seed, collect_env_info
 from dassl.config import get_cfg_default
 from dassl.engine import build_trainer
 
 # Test
 from general.arguments import Arguments
+from general.custom_logger import setup_logger
 
 # custom
 import datasets.oxford_pets
@@ -30,6 +31,16 @@ import datasets.imagenet_r
 import trainers.coop
 import trainers.cocoop
 import trainers.zsclip
+
+
+def generate_log_name(args: Arguments) -> str:
+    name = ""
+    if args.open_clip:
+        name += "open_clip"
+    else:
+        name += "clip"
+    name += "_" + args.backbone + "_" + args.pretrained + "_" + str(args.shots)
+    return name
 
 
 def print_args(args, cfg):
@@ -192,7 +203,7 @@ if __name__ == "__main__":
                      "output/Caltech", open_Clip, pretrained)
     print(f"arguments: {args}")
 
-    setup_logger(args.output_dir)
+    setup_logger(args.output_dir, generate_log_name(args))
 
     for i in 1, 2, 3:
         args.seed = i

@@ -28,6 +28,7 @@ class Arguments:
         self.root = str(root)
         self.dataset_config_file += str(dataset) + ".yaml"
         self.config_file += str(config) + ".yaml"
+        self.backbone = config
         self.ctp = str(ctp)
         self.n_ctx = n_ctx
         self.shots = shots
