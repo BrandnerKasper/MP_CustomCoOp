@@ -52,6 +52,8 @@ caltech-101/
 |–– split_zhou_Caltech101.json
 ```
 
+(For other datasets look into the CoOp repo and the DATASETS.md`)
+
 ## How to run
 At the moment this repository only supports CoOp (and not CoCoOp!).
 Two examples of how to use this repo: (ALWAYS SUBSTITUTE `$DATA` with either the absolute path to the datafolder on your system or relativ to this folder!)

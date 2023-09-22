@@ -181,6 +181,9 @@ if __name__ == "__main__":
     parser.add_argument("path", type=str, help='The path to the dataset in relation to this script')
     parser.add_argument("backbone", type=str, help='Which backbone to use, e.g. ResNet 50 or '
                                                    'ViT-B-32')
+    parser.add_argument("--shots", '-q', type=int, default='1', help='Number of shots used for '
+                                                                     'the model, ranging from 1 '
+                                                                     'to 16.')
     parser.add_argument("--open_Clip", '-o', action="store_true", default=False,
                         help='Set to true if you like to use the Open Clip, else use Clip')
     parser.add_argument("--pretrained", '-p', type=str, default='openai',
@@ -193,13 +196,14 @@ if __name__ == "__main__":
     # Access the parsed path string
     path_to_data = parser_arg.path  # /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data
     backbone = parser_arg.backbone  # rn101, rn50, vit_b32, vit_b16, xlm-roberta-base-ViT-B-32
+    shots = parser_arg.shots # 1, 2, 4, 8, 16
     open_Clip = parser_arg.open_Clip  # true for open_clip, false for clip
     pretrained = parser_arg.pretrained  # openai, laion5b_s13b_b90k, laion2b_s12b_b32k
 
     # print(f"Path to dataset {path_to_data}, backbone {backbone}, openclip {open_Clip}")
 
     # For the moment we only support CoOp and the caltech101 dataset
-    args = Arguments("CoOp", path_to_data, "caltech101", backbone, "end", 16, 1, False,
+    args = Arguments("CoOp", path_to_data, "caltech101", backbone, "end", 16, shots, False,
                      "output/Caltech", open_Clip, pretrained)
     print(f"arguments: {args}")
 
