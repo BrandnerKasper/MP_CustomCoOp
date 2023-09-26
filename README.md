@@ -84,3 +84,20 @@ To evaluate your model simply call:
 python eval.py 
 ```
 This evaluates all files in the output folder.
+In our case we got the following results:
+```
+Test and train accuracy with standard deviation of different runs.
+open_clip_roberta_vit_b32_openai_1.txt test: 36.6% +- 3.8% and train: 63.2% +- 33.4
+open_clip_xlm_roberta_base_vit_b_32_openai_1.txt test: 38.3% +- 2.3% and train: 64.6% +- 34.9
+clip_rn_50_openai_1.txt test: 83.3% +- 3.1% and train: 87.3% +- 9.8
+clip_vit_b_32_openai_1.txt test: 87.4% +- 0.9% and train: 90.4% +- 7.4
+open_clip_vit_b_32_openai_1.txt test: 73.6% +- 5.9% and train: 75.7% +- 27.5
+open_clip_vit_b_32_laion2b_s34b_b79k.txt test: 85.1% +- 1.5% and train: 87.4% +- 20.0
+clip_rn_101_openai_1.txt test: 85.4% +- 3.1% and train: 88.1% +- 8.9
+open_clip_rn_50_openai_16.txt test: 88.5% +- 0.7% and train: 58.4% +- 25.5
+open_clip_rn_101_openai_1.txt test: 80.2% +- 1.2% and train: 86.0% +- 20.1
+open_clip_rn_50_openai_1.txt test: 4.5% +- 0.0% and train: 3.6% +- 3.0
+open_clip_roberta-vit-b32_laion2b_s12b_b32k_16.txt test: 88.6% +- 0.5% and train: 70.4% +- 18.0
+open_clip_vit_b_16_openai_1.txt test: 86.1% +- 2.1% and train: 87.4% +- 16.5
+clip_vit_b_16_openai_1.txt test: 89.7% +- 1.8% and train: 90.5% +- 7.2
+```
