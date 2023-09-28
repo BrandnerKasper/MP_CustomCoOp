@@ -1,0 +1,1519 @@
+args2: backbone=, config_file=configs/trainers/CoOp/rn50_ep100.yaml, dataset_config_file=configs/datasets/caltech101.yaml, eval_only=False, head=, load_epoch=None, model_dir=, no_train=False,  opts: ['TRAINER.COOP.N_CTX', '16', 'TRAINER.COOP.CSC', 'False', 'TRAINER.COOP.CLASS_TOKEN_POSITION', 'end', 'DATASET.NUM_SHOTS', '1'], output_dir=output/Caltech/1, resume=, root=/home/brandnerkasper/Uni/MP/MP_CustomCoOp/data, seed=1, source_domains=None, target_domains=None, trainer=CoOp, transforms=None
+Setting fixed seed: 1
+***************
+** Arguments **
+***************
+config_file: configs/trainers/CoOp/rn50_ep100.yaml
+csc: False
+ctp: end
+dataset_config_file: configs/datasets/caltech101.yaml
+n_ctx: 16
+opts: ['TRAINER.COOP.N_CTX', '16', 'TRAINER.COOP.CSC', 'False', 'TRAINER.COOP.CLASS_TOKEN_POSITION', 'end', 'DATASET.NUM_SHOTS', '1']
+output_dir: output/Caltech/1
+root: /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data
+seed: 1
+shots: 1
+trainer: CoOp
+************
+** Config **
+************
+DATALOADER:
+  K_TRANSFORMS: 1
+  NUM_WORKERS: 4
+  RETURN_IMG0: False
+  TEST:
+    BATCH_SIZE: 100
+    SAMPLER: SequentialSampler
+  TRAIN_U:
+    BATCH_SIZE: 32
+    N_DOMAIN: 0
+    N_INS: 16
+    SAME_AS_X: True
+    SAMPLER: RandomSampler
+  TRAIN_X:
+    BATCH_SIZE: 32
+    N_DOMAIN: 0
+    N_INS: 16
+    SAMPLER: RandomSampler
+DATASET:
+  ALL_AS_UNLABELED: False
+  CIFAR_C_LEVEL: 1
+  CIFAR_C_TYPE: 
+  NAME: Caltech101
+  NUM_LABELED: -1
+  NUM_SHOTS: 1
+  ROOT: /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data
+  SOURCE_DOMAINS: ()
+  STL10_FOLD: -1
+  SUBSAMPLE_CLASSES: all
+  TARGET_DOMAINS: ()
+  VAL_PERCENT: 0.1
+INPUT:
+  COLORJITTER_B: 0.4
+  COLORJITTER_C: 0.4
+  COLORJITTER_H: 0.1
+  COLORJITTER_S: 0.4
+  CROP_PADDING: 4
+  CUTOUT_LEN: 16
+  CUTOUT_N: 1
+  GB_K: 21
+  GB_P: 0.5
+  GN_MEAN: 0.0
+  GN_STD: 0.15
+  INTERPOLATION: bicubic
+  NO_TRANSFORM: False
+  PIXEL_MEAN: [0.48145466, 0.4578275, 0.40821073]
+  PIXEL_STD: [0.26862954, 0.26130258, 0.27577711]
+  RANDAUGMENT_M: 10
+  RANDAUGMENT_N: 2
+  RGS_P: 0.2
+  RRCROP_SCALE: (0.08, 1.0)
+  SIZE: (224, 224)
+  TRANSFORMS: ('random_resized_crop', 'random_flip', 'normalize')
+MODEL:
+  BACKBONE:
+    NAME: RN50
+    PRETRAINED: True
+  HEAD:
+    ACTIVATION: relu
+    BN: True
+    DROPOUT: 0.0
+    HIDDEN_LAYERS: ()
+    NAME: 
+  INIT_WEIGHTS: 
+OPTIM:
+  ADAM_BETA1: 0.9
+  ADAM_BETA2: 0.999
+  BASE_LR_MULT: 0.1
+  GAMMA: 0.1
+  LR: 0.002
+  LR_SCHEDULER: cosine
+  MAX_EPOCH: 100
+  MOMENTUM: 0.9
+  NAME: sgd
+  NEW_LAYERS: ()
+  RMSPROP_ALPHA: 0.99
+  SGD_DAMPNING: 0
+  SGD_NESTEROV: False
+  STAGED_LR: False
+  STEPSIZE: (-1,)
+  WARMUP_CONS_LR: 1e-05
+  WARMUP_EPOCH: 1
+  WARMUP_MIN_LR: 1e-05
+  WARMUP_RECOUNT: True
+  WARMUP_TYPE: constant
+  WEIGHT_DECAY: 0.0005
+OUTPUT_DIR: output/Caltech/1
+RESUME: 
+SEED: 1
+TEST:
+  COMPUTE_CMAT: False
+  EVALUATOR: Classification
+  FINAL_MODEL: last_step
+  NO_TEST: False
+  PER_CLASS_RESULT: False
+  SPLIT: test
+TRAIN:
+  CHECKPOINT_FREQ: 0
+  COUNT_ITER: train_x
+  PRINT_FREQ: 5
+TRAINER:
+  CDAC:
+    CLASS_LR_MULTI: 10
+    P_THRESH: 0.95
+    RAMPUP_COEF: 30
+    RAMPUP_ITRS: 1000
+    STRONG_TRANSFORMS: ()
+    TOPK_MATCH: 5
+  COCOOP:
+    CTX_INIT: 
+    N_CTX: 16
+    PREC: fp16
+  COOP:
+    CLASS_TOKEN_POSITION: end
+    CSC: False
+    CTX_INIT: 
+    N_CTX: 16
+    PREC: fp16
+  CROSSGRAD:
+    ALPHA_D: 0.5
+    ALPHA_F: 0.5
+    EPS_D: 1.0
+    EPS_F: 1.0
+  DAEL:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DAELDG:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DDAIG:
+    ALPHA: 0.5
+    CLAMP: False
+    CLAMP_MAX: 1.0
+    CLAMP_MIN: -1.0
+    G_ARCH: 
+    LMDA: 0.3
+    WARMUP: 0
+  DOMAINMIX:
+    ALPHA: 1.0
+    BETA: 1.0
+    TYPE: crossdomain
+  ENTMIN:
+    LMDA: 0.001
+  FIXMATCH:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 1.0
+  M3SDA:
+    LMDA: 0.5
+    N_STEP_F: 4
+  MCD:
+    N_STEP_F: 4
+  MEANTEACHER:
+    EMA_ALPHA: 0.999
+    RAMPUP: 5
+    WEIGHT_U: 1.0
+  MIXMATCH:
+    MIXUP_BETA: 0.75
+    RAMPUP: 20000
+    TEMP: 2.0
+    WEIGHT_U: 100.0
+  MME:
+    LMDA: 0.1
+  NAME: CoOp
+  SE:
+    CONF_THRE: 0.95
+    EMA_ALPHA: 0.999
+    RAMPUP: 300
+USE_CUDA: True
+VERBOSE: True
+VERSION: 1
+Collecting env info ...
+** System info **
+PyTorch version: 2.0.1
+Is debug build: False
+CUDA used to build PyTorch: 11.7
+ROCM used to build PyTorch: N/A
+
+OS: Ubuntu 22.04.3 LTS (x86_64)
+GCC version: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
+Clang version: Could not collect
+CMake version: Could not collect
+Libc version: glibc-2.35
+
+Python version: 3.10.12 (main, Jul  5 2023, 18:54:27) [GCC 11.2.0] (64-bit runtime)
+Python platform: Linux-6.2.0-32-generic-x86_64-with-glibc2.35
+Is CUDA available: True
+CUDA runtime version: 11.5.119
+CUDA_MODULE_LOADING set to: LAZY
+GPU models and configuration: GPU 0: NVIDIA GeForce GTX 970
+Nvidia driver version: 525.125.06
+cuDNN version: Could not collect
+HIP runtime version: N/A
+MIOpen runtime version: N/A
+Is XNNPACK available: True
+
+CPU:
+Architecture:                       x86_64
+CPU op-mode(s):                     32-bit, 64-bit
+Address sizes:                      39 bits physical, 48 bits virtual
+Byte Order:                         Little Endian
+CPU(s):                             4
+On-line CPU(s) list:                0-3
+Vendor ID:                          GenuineIntel
+Model name:                         Intel(R) Xeon(R) CPU E3-1225 v3 @ 3.20GHz
+CPU family:                         6
+Model:                              60
+Thread(s) per core:                 1
+Core(s) per socket:                 4
+Socket(s):                          1
+Stepping:                           3
+CPU max MHz:                        3600,0000
+CPU min MHz:                        800,0000
+BogoMIPS:                           6397.79
+Flags:                              fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm ida arat pln pts md_clear flush_l1d
+Virtualization:                     VT-x
+L1d cache:                          128 KiB (4 instances)
+L1i cache:                          128 KiB (4 instances)
+L2 cache:                           1 MiB (4 instances)
+L3 cache:                           8 MiB (1 instance)
+NUMA node(s):                       1
+NUMA node0 CPU(s):                  0-3
+Vulnerability Gather data sampling: Not affected
+Vulnerability Itlb multihit:        KVM: Mitigation: VMX disabled
+Vulnerability L1tf:                 Mitigation; PTE Inversion; VMX conditional cache flushes, SMT disabled
+Vulnerability Mds:                  Mitigation; Clear CPU buffers; SMT disabled
+Vulnerability Meltdown:             Mitigation; PTI
+Vulnerability Mmio stale data:      Unknown: No mitigations
+Vulnerability Retbleed:             Not affected
+Vulnerability Spec store bypass:    Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:           Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:           Mitigation; Retpolines, IBPB conditional, IBRS_FW, STIBP disabled, RSB filling, PBRSB-eIBRS Not affected
+Vulnerability Srbds:                Mitigation; Microcode
+Vulnerability Tsx async abort:      Not affected
+
+Versions of relevant libraries:
+[pip3] numpy==1.25.2
+[pip3] open-clip-torch==2.20.0
+[pip3] torch==2.0.1
+[pip3] torchaudio==2.0.2
+[pip3] torchvision==0.15.2
+[conda] blas                      1.0                         mkl  
+[conda] ffmpeg                    4.3                  hf484d3e_0    pytorch
+[conda] mkl                       2023.1.0         h213fc3f_46343  
+[conda] mkl-service               2.4.0           py310h5eee18b_1  
+[conda] mkl_fft                   1.3.6           py310h1128e8f_1  
+[conda] mkl_random                1.2.2           py310h1128e8f_1  
+[conda] numpy                     1.25.2          py310h5f9d8c6_0  
+[conda] numpy-base                1.25.2          py310hb5e798b_0  
+[conda] open-clip-torch           2.20.0                   pypi_0    pypi
+[conda] pytorch                   2.0.1           py3.10_cuda11.7_cudnn8.5.0_0    pytorch
+[conda] pytorch-cuda              11.7                 h778d358_5    pytorch
+[conda] pytorch-mutex             1.0                        cuda    pytorch
+[conda] torchaudio                2.0.2               py310_cu117    pytorch
+[conda] torchtriton               2.0.0                     py310    pytorch
+[conda] torchvision               0.15.2              py310_cu117    pytorch
+        Pillow (9.4.0)
+
+Loading trainer: CoOp
+Loading dataset: Caltech101
+Reading split from /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data/caltech-101/split_zhou_Caltech101.json
+Loading preprocessed few-shot data from /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data/caltech-101/split_fewshot/shot_1-seed_1.pkl
+Building transform_train
++ random resized crop (size=(224, 224), scale=(0.08, 1.0))
++ random flip
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.48145466, 0.4578275, 0.40821073], std=[0.26862954, 0.26130258, 0.27577711])
+Building transform_test
++ resize the smaller edge to 224
++ 224x224 center crop
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.48145466, 0.4578275, 0.40821073], std=[0.26862954, 0.26130258, 0.27577711])
+---------  ----------
+Dataset    Caltech101
+# classes  100
+# train_x  100
+# val      100
+# test     2,465
+---------  ----------
+Loading CLIP (backbone: RN50)
+CLIP(
+  (visual): ModifiedResNet(
+    (conv1): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+    (bn1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (act1): ReLU(inplace=True)
+    (conv2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (act2): ReLU(inplace=True)
+    (conv3): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn3): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (act3): ReLU(inplace=True)
+    (avgpool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (layer1): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+        (downsample): Sequential(
+          (-1): AvgPool2d(kernel_size=1, stride=1, padding=0)
+          (0): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+    )
+    (layer2): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+        (downsample): Sequential(
+          (-1): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (3): Bottleneck(
+        (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+    )
+    (layer3): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+        (downsample): Sequential(
+          (-1): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (0): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (1): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (3): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (4): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (5): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+    )
+    (layer4): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+        (downsample): Sequential(
+          (-1): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (0): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (1): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+    )
+    (attnpool): AttentionPool2d(
+      (k_proj): Linear(in_features=2048, out_features=2048, bias=True)
+      (q_proj): Linear(in_features=2048, out_features=2048, bias=True)
+      (v_proj): Linear(in_features=2048, out_features=2048, bias=True)
+      (c_proj): Linear(in_features=2048, out_features=1024, bias=True)
+    )
+  )
+  (transformer): Transformer(
+    (resblocks): ModuleList(
+      (0-11): 12 x ResidualAttentionBlock(
+        (ln_1): LayerNormFp32((512,), eps=1e-05, elementwise_affine=True)
+        (attn): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+        )
+        (ls_1): Identity()
+        (ln_2): LayerNormFp32((512,), eps=1e-05, elementwise_affine=True)
+        (mlp): Sequential(
+          (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+          (gelu): QuickGELU()
+          (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+        )
+        (ls_2): Identity()
+      )
+    )
+  )
+  (token_embedding): Embedding(49408, 512)
+  (ln_final): LayerNormFp32((512,), eps=1e-05, elementwise_affine=True)
+)
+Building custom CLIP
+Initializing a generic context
+Initial context: "X X X X X X X X X X X X X X X X"
+Number of context words (tokens): 16
+Turning off gradients in both the image and the text encoder
+Loading evaluator: Classification
+No checkpoint found, train from scratch
+Initialize tensorboard (log_dir=output/Caltech/1/tensorboard)
+epoch [1/100] batch [1/3] time 5.251 (5.251) data 0.306 (0.306) loss 4.5742 (4.5742) acc 0.0000 (0.0000) lr 1.0000e-05 eta 0:26:10
+epoch [1/100] batch [2/3] time 2.007 (3.629) data 0.000 (0.153) loss 4.5352 (4.5547) acc 0.0000 (0.0000) lr 1.0000e-05 eta 0:18:01
+epoch [1/100] batch [3/3] time 2.005 (3.088) data 0.000 (0.102) loss 4.5586 (4.5560) acc 0.0000 (0.0000) lr 2.0000e-03 eta 0:15:17
+epoch [2/100] batch [1/3] time 2.284 (2.284) data 0.278 (0.278) loss 4.5664 (4.5664) acc 0.0000 (0.0000) lr 2.0000e-03 eta 0:11:15
+epoch [2/100] batch [2/3] time 2.021 (2.152) data 0.000 (0.139) loss 4.5625 (4.5645) acc 0.0000 (0.0000) lr 2.0000e-03 eta 0:10:34
+epoch [2/100] batch [3/3] time 2.019 (2.108) data 0.000 (0.093) loss 4.5352 (4.5547) acc 3.1250 (1.0417) lr 1.9995e-03 eta 0:10:19
+epoch [3/100] batch [1/3] time 2.299 (2.299) data 0.283 (0.283) loss 4.5430 (4.5430) acc 0.0000 (0.0000) lr 1.9995e-03 eta 0:11:13
+epoch [3/100] batch [2/3] time 2.026 (2.163) data 0.000 (0.142) loss 4.5547 (4.5488) acc 0.0000 (0.0000) lr 1.9995e-03 eta 0:10:31
+epoch [3/100] batch [3/3] time 2.034 (2.120) data 0.000 (0.095) loss 4.5352 (4.5443) acc 3.1250 (1.0417) lr 1.9980e-03 eta 0:10:16
+epoch [4/100] batch [1/3] time 2.307 (2.307) data 0.262 (0.262) loss 4.5742 (4.5742) acc 0.0000 (0.0000) lr 1.9980e-03 eta 0:11:09
+epoch [4/100] batch [2/3] time 2.025 (2.166) data 0.000 (0.131) loss 4.5742 (4.5742) acc 0.0000 (0.0000) lr 1.9980e-03 eta 0:10:25
+epoch [4/100] batch [3/3] time 2.047 (2.126) data 0.000 (0.087) loss 4.5547 (4.5677) acc 3.1250 (1.0417) lr 1.9956e-03 eta 0:10:12
+epoch [5/100] batch [1/3] time 2.305 (2.305) data 0.263 (0.263) loss 4.5703 (4.5703) acc 3.1250 (3.1250) lr 1.9956e-03 eta 0:11:01
+epoch [5/100] batch [2/3] time 2.053 (2.179) data 0.000 (0.131) loss 4.5703 (4.5703) acc 0.0000 (1.5625) lr 1.9956e-03 eta 0:10:23
+epoch [5/100] batch [3/3] time 2.048 (2.135) data 0.000 (0.088) loss 4.5703 (4.5703) acc 3.1250 (2.0833) lr 1.9921e-03 eta 0:10:08
+epoch [6/100] batch [1/3] time 2.288 (2.288) data 0.252 (0.252) loss 4.5859 (4.5859) acc 0.0000 (0.0000) lr 1.9921e-03 eta 0:10:49
+epoch [6/100] batch [2/3] time 2.035 (2.162) data 0.000 (0.126) loss 4.5820 (4.5840) acc 6.2500 (3.1250) lr 1.9921e-03 eta 0:10:11
+epoch [6/100] batch [3/3] time 2.032 (2.119) data 0.000 (0.084) loss 4.5703 (4.5794) acc 0.0000 (2.0833) lr 1.9877e-03 eta 0:09:57
+epoch [7/100] batch [1/3] time 2.297 (2.297) data 0.265 (0.265) loss 4.5703 (4.5703) acc 3.1250 (3.1250) lr 1.9877e-03 eta 0:10:45
+epoch [7/100] batch [2/3] time 2.033 (2.165) data 0.000 (0.133) loss 4.5703 (4.5703) acc 0.0000 (1.5625) lr 1.9877e-03 eta 0:10:06
+epoch [7/100] batch [3/3] time 2.025 (2.119) data 0.000 (0.089) loss 4.5820 (4.5742) acc 3.1250 (2.0833) lr 1.9823e-03 eta 0:09:51
+epoch [8/100] batch [1/3] time 2.287 (2.287) data 0.266 (0.266) loss 4.5859 (4.5859) acc 3.1250 (3.1250) lr 1.9823e-03 eta 0:10:35
+epoch [8/100] batch [2/3] time 2.036 (2.162) data 0.000 (0.133) loss 4.5703 (4.5781) acc 6.2500 (4.6875) lr 1.9823e-03 eta 0:09:58
+epoch [8/100] batch [3/3] time 2.013 (2.112) data 0.000 (0.089) loss 4.5859 (4.5807) acc 0.0000 (3.1250) lr 1.9759e-03 eta 0:09:43
+epoch [9/100] batch [1/3] time 2.284 (2.284) data 0.274 (0.274) loss 4.5938 (4.5938) acc 3.1250 (3.1250) lr 1.9759e-03 eta 0:10:28
+epoch [9/100] batch [2/3] time 2.011 (2.148) data 0.000 (0.137) loss 4.5859 (4.5898) acc 3.1250 (3.1250) lr 1.9759e-03 eta 0:09:48
+epoch [9/100] batch [3/3] time 1.998 (2.098) data 0.000 (0.091) loss 4.5820 (4.5872) acc 0.0000 (2.0833) lr 1.9686e-03 eta 0:09:32
+epoch [10/100] batch [1/3] time 2.273 (2.273) data 0.267 (0.267) loss 4.5977 (4.5977) acc 0.0000 (0.0000) lr 1.9686e-03 eta 0:10:18
+epoch [10/100] batch [2/3] time 2.012 (2.142) data 0.000 (0.133) loss 4.5742 (4.5859) acc 3.1250 (1.5625) lr 1.9686e-03 eta 0:09:40
+epoch [10/100] batch [3/3] time 2.003 (2.096) data 0.000 (0.089) loss 4.5977 (4.5898) acc 3.1250 (2.0833) lr 1.9603e-03 eta 0:09:25
+epoch [11/100] batch [1/3] time 2.253 (2.253) data 0.254 (0.254) loss 4.5859 (4.5859) acc 12.5000 (12.5000) lr 1.9603e-03 eta 0:10:06
+epoch [11/100] batch [2/3] time 1.993 (2.123) data 0.000 (0.127) loss 4.5938 (4.5898) acc 3.1250 (7.8125) lr 1.9603e-03 eta 0:09:29
+epoch [11/100] batch [3/3] time 2.002 (2.083) data 0.000 (0.085) loss 4.5859 (4.5885) acc 0.0000 (5.2083) lr 1.9511e-03 eta 0:09:16
+epoch [12/100] batch [1/3] time 2.240 (2.240) data 0.251 (0.251) loss 4.5859 (4.5859) acc 3.1250 (3.1250) lr 1.9511e-03 eta 0:09:55
+epoch [12/100] batch [2/3] time 1.991 (2.115) data 0.000 (0.126) loss 4.5859 (4.5859) acc 3.1250 (3.1250) lr 1.9511e-03 eta 0:09:20
+epoch [12/100] batch [3/3] time 1.992 (2.074) data 0.000 (0.084) loss 4.5938 (4.5885) acc 0.0000 (2.0833) lr 1.9409e-03 eta 0:09:07
+epoch [13/100] batch [1/3] time 2.273 (2.273) data 0.279 (0.279) loss 4.5820 (4.5820) acc 0.0000 (0.0000) lr 1.9409e-03 eta 0:09:57
+epoch [13/100] batch [2/3] time 1.992 (2.133) data 0.000 (0.140) loss 4.5938 (4.5879) acc 3.1250 (1.5625) lr 1.9409e-03 eta 0:09:18
+epoch [13/100] batch [3/3] time 1.987 (2.084) data 0.000 (0.093) loss 4.5938 (4.5898) acc 6.2500 (3.1250) lr 1.9298e-03 eta 0:09:03
+epoch [14/100] batch [1/3] time 2.260 (2.260) data 0.263 (0.263) loss 4.5859 (4.5859) acc 6.2500 (6.2500) lr 1.9298e-03 eta 0:09:47
+epoch [14/100] batch [2/3] time 1.988 (2.124) data 0.000 (0.132) loss 4.5859 (4.5859) acc 3.1250 (4.6875) lr 1.9298e-03 eta 0:09:10
+epoch [14/100] batch [3/3] time 1.988 (2.079) data 0.000 (0.088) loss 4.6016 (4.5911) acc 3.1250 (4.1667) lr 1.9178e-03 eta 0:08:56
+epoch [15/100] batch [1/3] time 2.257 (2.257) data 0.269 (0.269) loss 4.5820 (4.5820) acc 3.1250 (3.1250) lr 1.9178e-03 eta 0:09:40
+epoch [15/100] batch [2/3] time 1.983 (2.120) data 0.000 (0.135) loss 4.6016 (4.5918) acc 3.1250 (3.1250) lr 1.9178e-03 eta 0:09:02
+epoch [15/100] batch [3/3] time 1.987 (2.076) data 0.000 (0.090) loss 4.5859 (4.5898) acc 9.3750 (5.2083) lr 1.9048e-03 eta 0:08:49
+epoch [16/100] batch [1/3] time 2.251 (2.251) data 0.255 (0.255) loss 4.5977 (4.5977) acc 3.1250 (3.1250) lr 1.9048e-03 eta 0:09:31
+epoch [16/100] batch [2/3] time 1.987 (2.119) data 0.000 (0.128) loss 4.5781 (4.5879) acc 6.2500 (4.6875) lr 1.9048e-03 eta 0:08:56
+epoch [16/100] batch [3/3] time 1.987 (2.075) data 0.000 (0.085) loss 4.5938 (4.5898) acc 3.1250 (4.1667) lr 1.8910e-03 eta 0:08:42
+epoch [17/100] batch [1/3] time 2.266 (2.266) data 0.273 (0.273) loss 4.5938 (4.5938) acc 3.1250 (3.1250) lr 1.8910e-03 eta 0:09:28
+epoch [17/100] batch [2/3] time 1.997 (2.131) data 0.000 (0.137) loss 4.5938 (4.5938) acc 3.1250 (3.1250) lr 1.8910e-03 eta 0:08:52
+epoch [17/100] batch [3/3] time 1.989 (2.084) data 0.000 (0.091) loss 4.5820 (4.5898) acc 3.1250 (3.1250) lr 1.8763e-03 eta 0:08:38
+epoch [18/100] batch [1/3] time 2.253 (2.253) data 0.261 (0.261) loss 4.5820 (4.5820) acc 3.1250 (3.1250) lr 1.8763e-03 eta 0:09:18
+epoch [18/100] batch [2/3] time 1.997 (2.125) data 0.000 (0.130) loss 4.5820 (4.5820) acc 9.3750 (6.2500) lr 1.8763e-03 eta 0:08:44
+epoch [18/100] batch [3/3] time 1.985 (2.078) data 0.000 (0.087) loss 4.5938 (4.5859) acc 0.0000 (4.1667) lr 1.8607e-03 eta 0:08:31
+epoch [19/100] batch [1/3] time 2.256 (2.256) data 0.273 (0.273) loss 4.5938 (4.5938) acc 0.0000 (0.0000) lr 1.8607e-03 eta 0:09:12
+epoch [19/100] batch [2/3] time 1.985 (2.120) data 0.000 (0.137) loss 4.5820 (4.5879) acc 6.2500 (3.1250) lr 1.8607e-03 eta 0:08:37
+epoch [19/100] batch [3/3] time 1.982 (2.074) data 0.000 (0.091) loss 4.5859 (4.5872) acc 3.1250 (3.1250) lr 1.8443e-03 eta 0:08:24
+epoch [20/100] batch [1/3] time 2.255 (2.255) data 0.271 (0.271) loss 4.5977 (4.5977) acc 0.0000 (0.0000) lr 1.8443e-03 eta 0:09:05
+epoch [20/100] batch [2/3] time 1.988 (2.122) data 0.000 (0.136) loss 4.5859 (4.5918) acc 3.1250 (1.5625) lr 1.8443e-03 eta 0:08:31
+epoch [20/100] batch [3/3] time 1.988 (2.077) data 0.000 (0.091) loss 4.5898 (4.5911) acc 3.1250 (2.0833) lr 1.8271e-03 eta 0:08:18
+epoch [21/100] batch [1/3] time 2.264 (2.264) data 0.267 (0.267) loss 4.5898 (4.5898) acc 3.1250 (3.1250) lr 1.8271e-03 eta 0:09:01
+epoch [21/100] batch [2/3] time 1.982 (2.123) data 0.000 (0.133) loss 4.5859 (4.5879) acc 6.2500 (4.6875) lr 1.8271e-03 eta 0:08:25
+epoch [21/100] batch [3/3] time 1.988 (2.078) data 0.000 (0.089) loss 4.5859 (4.5872) acc 3.1250 (4.1667) lr 1.8090e-03 eta 0:08:12
+epoch [22/100] batch [1/3] time 2.245 (2.245) data 0.256 (0.256) loss 4.5898 (4.5898) acc 0.0000 (0.0000) lr 1.8090e-03 eta 0:08:49
+epoch [22/100] batch [2/3] time 1.981 (2.113) data 0.000 (0.128) loss 4.5977 (4.5938) acc 3.1250 (1.5625) lr 1.8090e-03 eta 0:08:16
+epoch [22/100] batch [3/3] time 1.986 (2.071) data 0.000 (0.085) loss 4.5820 (4.5898) acc 3.1250 (2.0833) lr 1.7902e-03 eta 0:08:04
+epoch [23/100] batch [1/3] time 2.247 (2.247) data 0.261 (0.261) loss 4.5859 (4.5859) acc 3.1250 (3.1250) lr 1.7902e-03 eta 0:08:43
+epoch [23/100] batch [2/3] time 1.995 (2.121) data 0.000 (0.130) loss 4.5938 (4.5898) acc 3.1250 (3.1250) lr 1.7902e-03 eta 0:08:12
+epoch [23/100] batch [3/3] time 1.995 (2.079) data 0.000 (0.087) loss 4.5781 (4.5859) acc 9.3750 (5.2083) lr 1.7705e-03 eta 0:08:00
+epoch [24/100] batch [1/3] time 2.260 (2.260) data 0.265 (0.265) loss 4.5781 (4.5781) acc 12.5000 (12.5000) lr 1.7705e-03 eta 0:08:39
+epoch [24/100] batch [2/3] time 1.986 (2.123) data 0.000 (0.133) loss 4.6016 (4.5898) acc 0.0000 (6.2500) lr 1.7705e-03 eta 0:08:06
+epoch [24/100] batch [3/3] time 1.982 (2.076) data 0.000 (0.089) loss 4.5859 (4.5885) acc 3.1250 (5.2083) lr 1.7501e-03 eta 0:07:53
+epoch [25/100] batch [1/3] time 2.267 (2.267) data 0.273 (0.273) loss 4.5781 (4.5781) acc 6.2500 (6.2500) lr 1.7501e-03 eta 0:08:34
+epoch [25/100] batch [2/3] time 1.992 (2.129) data 0.000 (0.137) loss 4.5938 (4.5859) acc 0.0000 (3.1250) lr 1.7501e-03 eta 0:08:01
+epoch [25/100] batch [3/3] time 1.986 (2.081) data 0.000 (0.091) loss 4.5898 (4.5872) acc 3.1250 (3.1250) lr 1.7290e-03 eta 0:07:48
+epoch [26/100] batch [1/3] time 2.279 (2.279) data 0.290 (0.290) loss 4.5898 (4.5898) acc 3.1250 (3.1250) lr 1.7290e-03 eta 0:08:30
+epoch [26/100] batch [2/3] time 1.980 (2.129) data 0.000 (0.145) loss 4.5781 (4.5840) acc 6.2500 (4.6875) lr 1.7290e-03 eta 0:07:54
+epoch [26/100] batch [3/3] time 1.982 (2.080) data 0.000 (0.097) loss 4.5859 (4.5846) acc 0.0000 (3.1250) lr 1.7071e-03 eta 0:07:41
+epoch [27/100] batch [1/3] time 2.252 (2.252) data 0.260 (0.260) loss 4.5898 (4.5898) acc 6.2500 (6.2500) lr 1.7071e-03 eta 0:08:17
+epoch [27/100] batch [2/3] time 2.005 (2.129) data 0.000 (0.130) loss 4.5859 (4.5879) acc 3.1250 (4.6875) lr 1.7071e-03 eta 0:07:48
+epoch [27/100] batch [3/3] time 2.005 (2.088) data 0.000 (0.087) loss 4.5742 (4.5833) acc 9.3750 (6.2500) lr 1.6845e-03 eta 0:07:37
+epoch [28/100] batch [1/3] time 2.307 (2.307) data 0.276 (0.276) loss 4.5859 (4.5859) acc 9.3750 (9.3750) lr 1.6845e-03 eta 0:08:22
+epoch [28/100] batch [2/3] time 2.091 (2.199) data 0.000 (0.138) loss 4.5820 (4.5840) acc 3.1250 (6.2500) lr 1.6845e-03 eta 0:07:57
+epoch [28/100] batch [3/3] time 2.236 (2.211) data 0.000 (0.092) loss 4.5820 (4.5833) acc 6.2500 (6.2500) lr 1.6613e-03 eta 0:07:57
+epoch [29/100] batch [1/3] time 2.585 (2.585) data 0.272 (0.272) loss 4.5938 (4.5938) acc 0.0000 (0.0000) lr 1.6613e-03 eta 0:09:15
+epoch [29/100] batch [2/3] time 2.294 (2.440) data 0.000 (0.136) loss 4.5703 (4.5820) acc 9.3750 (4.6875) lr 1.6613e-03 eta 0:08:42
+epoch [29/100] batch [3/3] time 2.260 (2.380) data 0.000 (0.091) loss 4.5938 (4.5859) acc 3.1250 (4.1667) lr 1.6374e-03 eta 0:08:26
+epoch [30/100] batch [1/3] time 2.785 (2.785) data 0.455 (0.455) loss 4.5781 (4.5781) acc 6.2500 (6.2500) lr 1.6374e-03 eta 0:09:50
+epoch [30/100] batch [2/3] time 2.213 (2.499) data 0.001 (0.228) loss 4.5781 (4.5781) acc 0.0000 (3.1250) lr 1.6374e-03 eta 0:08:47
+epoch [30/100] batch [3/3] time 2.312 (2.436) data 0.000 (0.152) loss 4.5703 (4.5755) acc 3.1250 (3.1250) lr 1.6129e-03 eta 0:08:31
+epoch [31/100] batch [1/3] time 2.467 (2.467) data 0.302 (0.302) loss 4.5703 (4.5703) acc 3.1250 (3.1250) lr 1.6129e-03 eta 0:08:35
+epoch [31/100] batch [2/3] time 2.050 (2.258) data 0.000 (0.151) loss 4.5703 (4.5703) acc 3.1250 (3.1250) lr 1.6129e-03 eta 0:07:49
+epoch [31/100] batch [3/3] time 2.043 (2.187) data 0.000 (0.101) loss 4.5469 (4.5625) acc 3.1250 (3.1250) lr 1.5878e-03 eta 0:07:32
+epoch [32/100] batch [1/3] time 2.315 (2.315) data 0.266 (0.266) loss 4.5312 (4.5312) acc 12.5000 (12.5000) lr 1.5878e-03 eta 0:07:56
+epoch [32/100] batch [2/3] time 2.050 (2.182) data 0.000 (0.133) loss 4.5664 (4.5488) acc 0.0000 (6.2500) lr 1.5878e-03 eta 0:07:27
+epoch [32/100] batch [3/3] time 2.096 (2.153) data 0.000 (0.089) loss 4.5938 (4.5638) acc 0.0000 (4.1667) lr 1.5621e-03 eta 0:07:19
+epoch [33/100] batch [1/3] time 2.330 (2.330) data 0.259 (0.259) loss 4.5430 (4.5430) acc 6.2500 (6.2500) lr 1.5621e-03 eta 0:07:52
+epoch [33/100] batch [2/3] time 2.113 (2.221) data 0.000 (0.130) loss 4.5742 (4.5586) acc 3.1250 (4.6875) lr 1.5621e-03 eta 0:07:28
+epoch [33/100] batch [3/3] time 2.410 (2.284) data 0.000 (0.086) loss 4.5703 (4.5625) acc 6.2500 (5.2083) lr 1.5358e-03 eta 0:07:39
+epoch [34/100] batch [1/3] time 2.492 (2.492) data 0.260 (0.260) loss 4.6133 (4.6133) acc 0.0000 (0.0000) lr 1.5358e-03 eta 0:08:18
+epoch [34/100] batch [2/3] time 2.051 (2.272) data 0.000 (0.130) loss 4.5469 (4.5801) acc 6.2500 (3.1250) lr 1.5358e-03 eta 0:07:32
+epoch [34/100] batch [3/3] time 2.056 (2.200) data 0.000 (0.087) loss 4.5430 (4.5677) acc 3.1250 (3.1250) lr 1.5090e-03 eta 0:07:15
+epoch [35/100] batch [1/3] time 2.330 (2.330) data 0.275 (0.275) loss 4.5625 (4.5625) acc 3.1250 (3.1250) lr 1.5090e-03 eta 0:07:38
+epoch [35/100] batch [2/3] time 2.048 (2.189) data 0.000 (0.137) loss 4.5586 (4.5605) acc 6.2500 (4.6875) lr 1.5090e-03 eta 0:07:09
+epoch [35/100] batch [3/3] time 2.056 (2.145) data 0.000 (0.092) loss 4.5625 (4.5612) acc 6.2500 (5.2083) lr 1.4818e-03 eta 0:06:58
+epoch [36/100] batch [1/3] time 2.326 (2.326) data 0.278 (0.278) loss 4.5469 (4.5469) acc 3.1250 (3.1250) lr 1.4818e-03 eta 0:07:31
+epoch [36/100] batch [2/3] time 2.037 (2.181) data 0.000 (0.139) loss 4.5625 (4.5547) acc 3.1250 (3.1250) lr 1.4818e-03 eta 0:07:00
+epoch [36/100] batch [3/3] time 2.044 (2.136) data 0.000 (0.093) loss 4.5625 (4.5573) acc 0.0000 (2.0833) lr 1.4540e-03 eta 0:06:50
+epoch [37/100] batch [1/3] time 2.325 (2.325) data 0.268 (0.268) loss 4.5781 (4.5781) acc 0.0000 (0.0000) lr 1.4540e-03 eta 0:07:23
+epoch [37/100] batch [2/3] time 2.055 (2.190) data 0.000 (0.134) loss 4.5430 (4.5605) acc 3.1250 (1.5625) lr 1.4540e-03 eta 0:06:56
+epoch [37/100] batch [3/3] time 2.059 (2.146) data 0.000 (0.089) loss 4.5703 (4.5638) acc 3.1250 (2.0833) lr 1.4258e-03 eta 0:06:45
+epoch [38/100] batch [1/3] time 2.317 (2.317) data 0.259 (0.259) loss 4.5625 (4.5625) acc 0.0000 (0.0000) lr 1.4258e-03 eta 0:07:15
+epoch [38/100] batch [2/3] time 2.057 (2.187) data 0.000 (0.130) loss 4.5859 (4.5742) acc 3.1250 (1.5625) lr 1.4258e-03 eta 0:06:48
+epoch [38/100] batch [3/3] time 2.040 (2.138) data 0.000 (0.087) loss 4.5586 (4.5690) acc 3.1250 (2.0833) lr 1.3971e-03 eta 0:06:37
+epoch [39/100] batch [1/3] time 2.319 (2.319) data 0.263 (0.263) loss 4.5742 (4.5742) acc 3.1250 (3.1250) lr 1.3971e-03 eta 0:07:08
+epoch [39/100] batch [2/3] time 2.047 (2.183) data 0.000 (0.132) loss 4.5664 (4.5703) acc 3.1250 (3.1250) lr 1.3971e-03 eta 0:06:41
+epoch [39/100] batch [3/3] time 2.048 (2.138) data 0.000 (0.088) loss 4.5742 (4.5716) acc 0.0000 (2.0833) lr 1.3681e-03 eta 0:06:31
+epoch [40/100] batch [1/3] time 2.327 (2.327) data 0.276 (0.276) loss 4.5703 (4.5703) acc 3.1250 (3.1250) lr 1.3681e-03 eta 0:07:03
+epoch [40/100] batch [2/3] time 2.060 (2.194) data 0.000 (0.138) loss 4.5898 (4.5801) acc 3.1250 (3.1250) lr 1.3681e-03 eta 0:06:37
+epoch [40/100] batch [3/3] time 2.058 (2.148) data 0.000 (0.092) loss 4.5820 (4.5807) acc 3.1250 (3.1250) lr 1.3387e-03 eta 0:06:26
+epoch [41/100] batch [1/3] time 2.307 (2.307) data 0.259 (0.259) loss 4.5898 (4.5898) acc 3.1250 (3.1250) lr 1.3387e-03 eta 0:06:52
+epoch [41/100] batch [2/3] time 2.061 (2.184) data 0.000 (0.130) loss 4.5547 (4.5723) acc 0.0000 (1.5625) lr 1.3387e-03 eta 0:06:28
+epoch [41/100] batch [3/3] time 2.054 (2.141) data 0.000 (0.087) loss 4.5859 (4.5768) acc 3.1250 (2.0833) lr 1.3090e-03 eta 0:06:18
+epoch [42/100] batch [1/3] time 2.313 (2.313) data 0.257 (0.257) loss 4.5859 (4.5859) acc 0.0000 (0.0000) lr 1.3090e-03 eta 0:06:47
+epoch [42/100] batch [2/3] time 2.052 (2.182) data 0.000 (0.129) loss 4.5547 (4.5703) acc 3.1250 (1.5625) lr 1.3090e-03 eta 0:06:21
+epoch [42/100] batch [3/3] time 2.065 (2.143) data 0.000 (0.086) loss 4.5703 (4.5703) acc 3.1250 (2.0833) lr 1.2790e-03 eta 0:06:12
+epoch [43/100] batch [1/3] time 2.353 (2.353) data 0.307 (0.307) loss 4.5781 (4.5781) acc 3.1250 (3.1250) lr 1.2790e-03 eta 0:06:47
+epoch [43/100] batch [2/3] time 2.051 (2.202) data 0.000 (0.154) loss 4.5820 (4.5801) acc 3.1250 (3.1250) lr 1.2790e-03 eta 0:06:18
+epoch [43/100] batch [3/3] time 2.049 (2.151) data 0.000 (0.102) loss 4.5625 (4.5742) acc 0.0000 (2.0833) lr 1.2487e-03 eta 0:06:07
+epoch [44/100] batch [1/3] time 2.339 (2.339) data 0.281 (0.281) loss 4.5781 (4.5781) acc 0.0000 (0.0000) lr 1.2487e-03 eta 0:06:37
+epoch [44/100] batch [2/3] time 2.032 (2.185) data 0.000 (0.140) loss 4.5703 (4.5742) acc 6.2500 (3.1250) lr 1.2487e-03 eta 0:06:09
+epoch [44/100] batch [3/3] time 2.030 (2.134) data 0.000 (0.094) loss 4.5781 (4.5755) acc 0.0000 (2.0833) lr 1.2181e-03 eta 0:05:58
+epoch [45/100] batch [1/3] time 2.308 (2.308) data 0.276 (0.276) loss 4.5742 (4.5742) acc 3.1250 (3.1250) lr 1.2181e-03 eta 0:06:25
+epoch [45/100] batch [2/3] time 2.052 (2.180) data 0.000 (0.138) loss 4.5742 (4.5742) acc 0.0000 (1.5625) lr 1.2181e-03 eta 0:06:01
+epoch [45/100] batch [3/3] time 2.054 (2.138) data 0.000 (0.092) loss 4.5703 (4.5729) acc 6.2500 (3.1250) lr 1.1874e-03 eta 0:05:52
+epoch [46/100] batch [1/3] time 2.301 (2.301) data 0.258 (0.258) loss 4.5703 (4.5703) acc 3.1250 (3.1250) lr 1.1874e-03 eta 0:06:17
+epoch [46/100] batch [2/3] time 2.041 (2.171) data 0.000 (0.129) loss 4.5742 (4.5723) acc 3.1250 (3.1250) lr 1.1874e-03 eta 0:05:53
+epoch [46/100] batch [3/3] time 2.044 (2.129) data 0.000 (0.086) loss 4.5547 (4.5664) acc 12.5000 (6.2500) lr 1.1564e-03 eta 0:05:44
+epoch [47/100] batch [1/3] time 2.310 (2.310) data 0.276 (0.276) loss 4.5742 (4.5742) acc 6.2500 (6.2500) lr 1.1564e-03 eta 0:06:11
+epoch [47/100] batch [2/3] time 2.042 (2.176) data 0.000 (0.138) loss 4.5859 (4.5801) acc 6.2500 (6.2500) lr 1.1564e-03 eta 0:05:48
+epoch [47/100] batch [3/3] time 2.043 (2.132) data 0.000 (0.092) loss 4.5625 (4.5742) acc 0.0000 (4.1667) lr 1.1253e-03 eta 0:05:38
+epoch [48/100] batch [1/3] time 2.298 (2.298) data 0.263 (0.263) loss 4.5820 (4.5820) acc 6.2500 (6.2500) lr 1.1253e-03 eta 0:06:03
+epoch [48/100] batch [2/3] time 2.045 (2.171) data 0.000 (0.132) loss 4.5859 (4.5840) acc 0.0000 (3.1250) lr 1.1253e-03 eta 0:05:40
+epoch [48/100] batch [3/3] time 2.031 (2.124) data 0.000 (0.088) loss 4.5703 (4.5794) acc 3.1250 (3.1250) lr 1.0941e-03 eta 0:05:31
+epoch [49/100] batch [1/3] time 2.304 (2.304) data 0.276 (0.276) loss 4.5664 (4.5664) acc 3.1250 (3.1250) lr 1.0941e-03 eta 0:05:57
+epoch [49/100] batch [2/3] time 2.043 (2.174) data 0.000 (0.138) loss 4.5898 (4.5781) acc 3.1250 (3.1250) lr 1.0941e-03 eta 0:05:34
+epoch [49/100] batch [3/3] time 2.041 (2.129) data 0.000 (0.092) loss 4.5781 (4.5781) acc 0.0000 (2.0833) lr 1.0628e-03 eta 0:05:25
+epoch [50/100] batch [1/3] time 2.295 (2.295) data 0.268 (0.268) loss 4.6016 (4.6016) acc 0.0000 (0.0000) lr 1.0628e-03 eta 0:05:48
+epoch [50/100] batch [2/3] time 2.037 (2.166) data 0.000 (0.134) loss 4.5664 (4.5840) acc 3.1250 (1.5625) lr 1.0628e-03 eta 0:05:27
+epoch [50/100] batch [3/3] time 2.044 (2.126) data 0.000 (0.089) loss 4.5547 (4.5742) acc 9.3750 (4.1667) lr 1.0314e-03 eta 0:05:18
+epoch [51/100] batch [1/3] time 2.305 (2.305) data 0.275 (0.275) loss 4.5547 (4.5547) acc 6.2500 (6.2500) lr 1.0314e-03 eta 0:05:43
+epoch [51/100] batch [2/3] time 2.039 (2.172) data 0.000 (0.138) loss 4.5664 (4.5605) acc 6.2500 (6.2500) lr 1.0314e-03 eta 0:05:21
+epoch [51/100] batch [3/3] time 2.042 (2.129) data 0.000 (0.092) loss 4.5938 (4.5716) acc 0.0000 (4.1667) lr 1.0000e-03 eta 0:05:12
+epoch [52/100] batch [1/3] time 2.296 (2.296) data 0.258 (0.258) loss 4.5859 (4.5859) acc 0.0000 (0.0000) lr 1.0000e-03 eta 0:05:35
+epoch [52/100] batch [2/3] time 2.038 (2.167) data 0.000 (0.129) loss 4.5820 (4.5840) acc 6.2500 (3.1250) lr 1.0000e-03 eta 0:05:14
+epoch [52/100] batch [3/3] time 2.047 (2.127) data 0.000 (0.086) loss 4.5469 (4.5716) acc 3.1250 (3.1250) lr 9.6859e-04 eta 0:05:06
+epoch [53/100] batch [1/3] time 2.303 (2.303) data 0.264 (0.264) loss 4.5703 (4.5703) acc 3.1250 (3.1250) lr 9.6859e-04 eta 0:05:29
+epoch [53/100] batch [2/3] time 2.038 (2.170) data 0.000 (0.132) loss 4.5625 (4.5664) acc 6.2500 (4.6875) lr 9.6859e-04 eta 0:05:08
+epoch [53/100] batch [3/3] time 2.025 (2.122) data 0.000 (0.088) loss 4.5742 (4.5690) acc 0.0000 (3.1250) lr 9.3721e-04 eta 0:04:59
+epoch [54/100] batch [1/3] time 2.312 (2.312) data 0.283 (0.283) loss 4.5195 (4.5195) acc 6.2500 (6.2500) lr 9.3721e-04 eta 0:05:23
+epoch [54/100] batch [2/3] time 2.046 (2.179) data 0.000 (0.142) loss 4.5820 (4.5508) acc 0.0000 (3.1250) lr 9.3721e-04 eta 0:05:02
+epoch [54/100] batch [3/3] time 2.045 (2.134) data 0.000 (0.094) loss 4.6016 (4.5677) acc 3.1250 (3.1250) lr 9.0589e-04 eta 0:04:54
+epoch [55/100] batch [1/3] time 2.336 (2.336) data 0.306 (0.306) loss 4.5781 (4.5781) acc 3.1250 (3.1250) lr 9.0589e-04 eta 0:05:20
+epoch [55/100] batch [2/3] time 2.058 (2.197) data 0.000 (0.153) loss 4.5664 (4.5723) acc 6.2500 (4.6875) lr 9.0589e-04 eta 0:04:58
+epoch [55/100] batch [3/3] time 2.066 (2.153) data 0.000 (0.102) loss 4.5625 (4.5690) acc 6.2500 (5.2083) lr 8.7467e-04 eta 0:04:50
+epoch [56/100] batch [1/3] time 2.357 (2.357) data 0.278 (0.278) loss 4.5820 (4.5820) acc 6.2500 (6.2500) lr 8.7467e-04 eta 0:05:15
+epoch [56/100] batch [2/3] time 2.064 (2.210) data 0.000 (0.139) loss 4.5742 (4.5781) acc 6.2500 (6.2500) lr 8.7467e-04 eta 0:04:53
+epoch [56/100] batch [3/3] time 2.115 (2.179) data 0.000 (0.093) loss 4.5469 (4.5677) acc 3.1250 (5.2083) lr 8.4357e-04 eta 0:04:47
+epoch [57/100] batch [1/3] time 2.645 (2.645) data 0.264 (0.264) loss 4.5586 (4.5586) acc 3.1250 (3.1250) lr 8.4357e-04 eta 0:05:46
+epoch [57/100] batch [2/3] time 2.036 (2.340) data 0.000 (0.132) loss 4.5820 (4.5703) acc 0.0000 (1.5625) lr 8.4357e-04 eta 0:05:04
+epoch [57/100] batch [3/3] time 2.096 (2.259) data 0.000 (0.088) loss 4.5742 (4.5716) acc 9.3750 (4.1667) lr 8.1262e-04 eta 0:04:51
+epoch [58/100] batch [1/3] time 2.406 (2.406) data 0.365 (0.365) loss 4.5898 (4.5898) acc 6.2500 (6.2500) lr 8.1262e-04 eta 0:05:07
+epoch [58/100] batch [2/3] time 2.120 (2.263) data 0.000 (0.183) loss 4.5586 (4.5742) acc 3.1250 (4.6875) lr 8.1262e-04 eta 0:04:47
+epoch [58/100] batch [3/3] time 2.071 (2.199) data 0.000 (0.122) loss 4.5820 (4.5768) acc 0.0000 (3.1250) lr 7.8186e-04 eta 0:04:37
+epoch [59/100] batch [1/3] time 2.465 (2.465) data 0.277 (0.277) loss 4.5859 (4.5859) acc 3.1250 (3.1250) lr 7.8186e-04 eta 0:05:08
+epoch [59/100] batch [2/3] time 2.181 (2.323) data 0.000 (0.139) loss 4.5859 (4.5859) acc 6.2500 (4.6875) lr 7.8186e-04 eta 0:04:48
+epoch [59/100] batch [3/3] time 2.172 (2.272) data 0.000 (0.092) loss 4.5469 (4.5729) acc 9.3750 (6.2500) lr 7.5131e-04 eta 0:04:39
+epoch [60/100] batch [1/3] time 2.538 (2.538) data 0.270 (0.270) loss 4.5625 (4.5625) acc 6.2500 (6.2500) lr 7.5131e-04 eta 0:05:09
+epoch [60/100] batch [2/3] time 2.246 (2.392) data 0.000 (0.135) loss 4.5625 (4.5625) acc 0.0000 (3.1250) lr 7.5131e-04 eta 0:04:49
+epoch [60/100] batch [3/3] time 2.216 (2.333) data 0.000 (0.090) loss 4.5703 (4.5651) acc 0.0000 (2.0833) lr 7.2101e-04 eta 0:04:39
+epoch [61/100] batch [1/3] time 2.381 (2.381) data 0.256 (0.256) loss 4.5586 (4.5586) acc 6.2500 (6.2500) lr 7.2101e-04 eta 0:04:43
+epoch [61/100] batch [2/3] time 2.168 (2.275) data 0.000 (0.128) loss 4.5859 (4.5723) acc 0.0000 (3.1250) lr 7.2101e-04 eta 0:04:28
+epoch [61/100] batch [3/3] time 2.118 (2.223) data 0.000 (0.086) loss 4.5625 (4.5690) acc 6.2500 (4.1667) lr 6.9098e-04 eta 0:04:20
+epoch [62/100] batch [1/3] time 2.350 (2.350) data 0.265 (0.265) loss 4.5586 (4.5586) acc 0.0000 (0.0000) lr 6.9098e-04 eta 0:04:32
+epoch [62/100] batch [2/3] time 2.082 (2.216) data 0.000 (0.133) loss 4.5820 (4.5703) acc 3.1250 (1.5625) lr 6.9098e-04 eta 0:04:14
+epoch [62/100] batch [3/3] time 2.067 (2.166) data 0.000 (0.089) loss 4.5352 (4.5586) acc 3.1250 (2.0833) lr 6.6126e-04 eta 0:04:06
+epoch [63/100] batch [1/3] time 2.428 (2.428) data 0.279 (0.279) loss 4.5430 (4.5430) acc 3.1250 (3.1250) lr 6.6126e-04 eta 0:04:34
+epoch [63/100] batch [2/3] time 2.067 (2.247) data 0.000 (0.139) loss 4.5859 (4.5645) acc 0.0000 (1.5625) lr 6.6126e-04 eta 0:04:11
+epoch [63/100] batch [3/3] time 2.232 (2.242) data 0.000 (0.093) loss 4.5938 (4.5742) acc 0.0000 (1.0417) lr 6.3188e-04 eta 0:04:08
+epoch [64/100] batch [1/3] time 2.330 (2.330) data 0.274 (0.274) loss 4.5703 (4.5703) acc 0.0000 (0.0000) lr 6.3188e-04 eta 0:04:16
+epoch [64/100] batch [2/3] time 2.132 (2.231) data 0.000 (0.137) loss 4.5547 (4.5625) acc 0.0000 (0.0000) lr 6.3188e-04 eta 0:04:03
+epoch [64/100] batch [3/3] time 2.056 (2.173) data 0.000 (0.091) loss 4.5664 (4.5638) acc 3.1250 (1.0417) lr 6.0285e-04 eta 0:03:54
+epoch [65/100] batch [1/3] time 2.304 (2.304) data 0.265 (0.265) loss 4.5898 (4.5898) acc 0.0000 (0.0000) lr 6.0285e-04 eta 0:04:06
+epoch [65/100] batch [2/3] time 2.048 (2.176) data 0.000 (0.133) loss 4.5586 (4.5742) acc 6.2500 (3.1250) lr 6.0285e-04 eta 0:03:50
+epoch [65/100] batch [3/3] time 2.045 (2.132) data 0.000 (0.089) loss 4.5859 (4.5781) acc 0.0000 (2.0833) lr 5.7422e-04 eta 0:03:43
+epoch [66/100] batch [1/3] time 2.387 (2.387) data 0.280 (0.280) loss 4.5586 (4.5586) acc 3.1250 (3.1250) lr 5.7422e-04 eta 0:04:08
+epoch [66/100] batch [2/3] time 2.101 (2.244) data 0.000 (0.140) loss 4.5703 (4.5645) acc 0.0000 (1.5625) lr 5.7422e-04 eta 0:03:51
+epoch [66/100] batch [3/3] time 2.127 (2.205) data 0.011 (0.097) loss 4.5508 (4.5599) acc 9.3750 (4.1667) lr 5.4601e-04 eta 0:03:44
+epoch [67/100] batch [1/3] time 2.338 (2.338) data 0.275 (0.275) loss 4.5742 (4.5742) acc 0.0000 (0.0000) lr 5.4601e-04 eta 0:03:56
+epoch [67/100] batch [2/3] time 2.075 (2.207) data 0.000 (0.138) loss 4.5703 (4.5723) acc 3.1250 (1.5625) lr 5.4601e-04 eta 0:03:40
+epoch [67/100] batch [3/3] time 2.123 (2.179) data 0.000 (0.092) loss 4.5625 (4.5690) acc 6.2500 (3.1250) lr 5.1825e-04 eta 0:03:35
+epoch [68/100] batch [1/3] time 2.371 (2.371) data 0.262 (0.262) loss 4.5859 (4.5859) acc 0.0000 (0.0000) lr 5.1825e-04 eta 0:03:52
+epoch [68/100] batch [2/3] time 2.043 (2.207) data 0.000 (0.131) loss 4.5508 (4.5684) acc 9.3750 (4.6875) lr 5.1825e-04 eta 0:03:34
+epoch [68/100] batch [3/3] time 2.069 (2.161) data 0.000 (0.088) loss 4.5664 (4.5677) acc 6.2500 (5.2083) lr 4.9096e-04 eta 0:03:27
+epoch [69/100] batch [1/3] time 2.338 (2.338) data 0.281 (0.281) loss 4.5352 (4.5352) acc 3.1250 (3.1250) lr 4.9096e-04 eta 0:03:42
+epoch [69/100] batch [2/3] time 2.099 (2.218) data 0.000 (0.141) loss 4.5430 (4.5391) acc 0.0000 (1.5625) lr 4.9096e-04 eta 0:03:28
+epoch [69/100] batch [3/3] time 2.067 (2.168) data 0.000 (0.094) loss 4.5820 (4.5534) acc 3.1250 (2.0833) lr 4.6417e-04 eta 0:03:21
+epoch [70/100] batch [1/3] time 2.337 (2.337) data 0.272 (0.272) loss 4.5508 (4.5508) acc 6.2500 (6.2500) lr 4.6417e-04 eta 0:03:34
+epoch [70/100] batch [2/3] time 2.097 (2.217) data 0.000 (0.136) loss 4.5781 (4.5645) acc 0.0000 (3.1250) lr 4.6417e-04 eta 0:03:21
+epoch [70/100] batch [3/3] time 2.093 (2.176) data 0.000 (0.091) loss 4.5547 (4.5612) acc 6.2500 (4.1667) lr 4.3792e-04 eta 0:03:15
+epoch [71/100] batch [1/3] time 2.378 (2.378) data 0.275 (0.275) loss 4.5547 (4.5547) acc 3.1250 (3.1250) lr 4.3792e-04 eta 0:03:31
+epoch [71/100] batch [2/3] time 2.106 (2.242) data 0.000 (0.138) loss 4.5703 (4.5625) acc 3.1250 (3.1250) lr 4.3792e-04 eta 0:03:17
+epoch [71/100] batch [3/3] time 2.102 (2.195) data 0.000 (0.092) loss 4.5625 (4.5625) acc 6.2500 (4.1667) lr 4.1221e-04 eta 0:03:10
+epoch [72/100] batch [1/3] time 2.361 (2.361) data 0.281 (0.281) loss 4.5508 (4.5508) acc 3.1250 (3.1250) lr 4.1221e-04 eta 0:03:23
+epoch [72/100] batch [2/3] time 2.088 (2.225) data 0.000 (0.141) loss 4.5430 (4.5469) acc 6.2500 (4.6875) lr 4.1221e-04 eta 0:03:09
+epoch [72/100] batch [3/3] time 2.054 (2.168) data 0.000 (0.094) loss 4.5586 (4.5508) acc 3.1250 (4.1667) lr 3.8709e-04 eta 0:03:02
+epoch [73/100] batch [1/3] time 2.350 (2.350) data 0.258 (0.258) loss 4.5859 (4.5859) acc 3.1250 (3.1250) lr 3.8709e-04 eta 0:03:15
+epoch [73/100] batch [2/3] time 2.105 (2.227) data 0.000 (0.129) loss 4.5469 (4.5664) acc 3.1250 (3.1250) lr 3.8709e-04 eta 0:03:02
+epoch [73/100] batch [3/3] time 2.048 (2.168) data 0.000 (0.086) loss 4.5625 (4.5651) acc 3.1250 (3.1250) lr 3.6258e-04 eta 0:02:55
+epoch [74/100] batch [1/3] time 2.384 (2.384) data 0.309 (0.309) loss 4.5625 (4.5625) acc 6.2500 (6.2500) lr 3.6258e-04 eta 0:03:10
+epoch [74/100] batch [2/3] time 2.097 (2.241) data 0.000 (0.155) loss 4.5469 (4.5547) acc 6.2500 (6.2500) lr 3.6258e-04 eta 0:02:57
+epoch [74/100] batch [3/3] time 2.083 (2.188) data 0.000 (0.103) loss 4.5508 (4.5534) acc 9.3750 (7.2917) lr 3.3869e-04 eta 0:02:50
+epoch [75/100] batch [1/3] time 2.310 (2.310) data 0.262 (0.262) loss 4.5469 (4.5469) acc 3.1250 (3.1250) lr 3.3869e-04 eta 0:02:57
+epoch [75/100] batch [2/3] time 2.049 (2.180) data 0.000 (0.131) loss 4.5625 (4.5547) acc 0.0000 (1.5625) lr 3.3869e-04 eta 0:02:45
+epoch [75/100] batch [3/3] time 2.059 (2.140) data 0.000 (0.088) loss 4.5586 (4.5560) acc 3.1250 (2.0833) lr 3.1545e-04 eta 0:02:40
+epoch [76/100] batch [1/3] time 2.526 (2.526) data 0.427 (0.427) loss 4.5547 (4.5547) acc 6.2500 (6.2500) lr 3.1545e-04 eta 0:03:06
+epoch [76/100] batch [2/3] time 2.079 (2.303) data 0.000 (0.214) loss 4.5625 (4.5586) acc 6.2500 (6.2500) lr 3.1545e-04 eta 0:02:48
+epoch [76/100] batch [3/3] time 2.112 (2.239) data 0.000 (0.142) loss 4.5625 (4.5599) acc 9.3750 (7.2917) lr 2.9289e-04 eta 0:02:41
+epoch [77/100] batch [1/3] time 2.379 (2.379) data 0.278 (0.278) loss 4.5430 (4.5430) acc 9.3750 (9.3750) lr 2.9289e-04 eta 0:02:48
+epoch [77/100] batch [2/3] time 2.122 (2.251) data 0.000 (0.139) loss 4.5820 (4.5625) acc 3.1250 (6.2500) lr 2.9289e-04 eta 0:02:37
+epoch [77/100] batch [3/3] time 2.084 (2.195) data 0.000 (0.093) loss 4.5586 (4.5612) acc 6.2500 (6.2500) lr 2.7103e-04 eta 0:02:31
+epoch [78/100] batch [1/3] time 2.351 (2.351) data 0.268 (0.268) loss 4.5469 (4.5469) acc 6.2500 (6.2500) lr 2.7103e-04 eta 0:02:39
+epoch [78/100] batch [2/3] time 2.068 (2.210) data 0.000 (0.134) loss 4.5469 (4.5469) acc 3.1250 (4.6875) lr 2.7103e-04 eta 0:02:28
+epoch [78/100] batch [3/3] time 2.104 (2.175) data 0.000 (0.090) loss 4.6172 (4.5703) acc 0.0000 (3.1250) lr 2.4989e-04 eta 0:02:23
+epoch [79/100] batch [1/3] time 2.383 (2.383) data 0.265 (0.265) loss 4.5312 (4.5312) acc 6.2500 (6.2500) lr 2.4989e-04 eta 0:02:34
+epoch [79/100] batch [2/3] time 2.124 (2.253) data 0.000 (0.133) loss 4.5703 (4.5508) acc 6.2500 (6.2500) lr 2.4989e-04 eta 0:02:24
+epoch [79/100] batch [3/3] time 2.076 (2.194) data 0.000 (0.089) loss 4.5664 (4.5560) acc 3.1250 (5.2083) lr 2.2949e-04 eta 0:02:18
+epoch [80/100] batch [1/3] time 2.410 (2.410) data 0.306 (0.306) loss 4.5312 (4.5312) acc 3.1250 (3.1250) lr 2.2949e-04 eta 0:02:29
+epoch [80/100] batch [2/3] time 2.090 (2.250) data 0.011 (0.158) loss 4.5781 (4.5547) acc 0.0000 (1.5625) lr 2.2949e-04 eta 0:02:17
+epoch [80/100] batch [3/3] time 2.077 (2.192) data 0.000 (0.106) loss 4.5586 (4.5560) acc 0.0000 (1.0417) lr 2.0984e-04 eta 0:02:11
+epoch [81/100] batch [1/3] time 2.419 (2.419) data 0.362 (0.362) loss 4.5742 (4.5742) acc 3.1250 (3.1250) lr 2.0984e-04 eta 0:02:22
+epoch [81/100] batch [2/3] time 2.133 (2.276) data 0.000 (0.181) loss 4.5352 (4.5547) acc 3.1250 (3.1250) lr 2.0984e-04 eta 0:02:11
+epoch [81/100] batch [3/3] time 2.077 (2.209) data 0.000 (0.121) loss 4.5977 (4.5690) acc 3.1250 (3.1250) lr 1.9098e-04 eta 0:02:05
+epoch [82/100] batch [1/3] time 2.318 (2.318) data 0.272 (0.272) loss 4.5547 (4.5547) acc 3.1250 (3.1250) lr 1.9098e-04 eta 0:02:09
+epoch [82/100] batch [2/3] time 2.089 (2.204) data 0.000 (0.136) loss 4.5469 (4.5508) acc 6.2500 (4.6875) lr 1.9098e-04 eta 0:02:01
+epoch [82/100] batch [3/3] time 2.058 (2.155) data 0.000 (0.091) loss 4.5547 (4.5521) acc 3.1250 (4.1667) lr 1.7292e-04 eta 0:01:56
+epoch [83/100] batch [1/3] time 2.391 (2.391) data 0.274 (0.274) loss 4.5508 (4.5508) acc 6.2500 (6.2500) lr 1.7292e-04 eta 0:02:06
+epoch [83/100] batch [2/3] time 2.093 (2.242) data 0.000 (0.137) loss 4.5664 (4.5586) acc 3.1250 (4.6875) lr 1.7292e-04 eta 0:01:56
+epoch [83/100] batch [3/3] time 2.125 (2.203) data 0.000 (0.091) loss 4.5430 (4.5534) acc 3.1250 (4.1667) lr 1.5567e-04 eta 0:01:52
+epoch [84/100] batch [1/3] time 2.414 (2.414) data 0.257 (0.257) loss 4.5781 (4.5781) acc 3.1250 (3.1250) lr 1.5567e-04 eta 0:02:00
+epoch [84/100] batch [2/3] time 2.426 (2.420) data 0.000 (0.129) loss 4.5234 (4.5508) acc 6.2500 (4.6875) lr 1.5567e-04 eta 0:01:58
+epoch [84/100] batch [3/3] time 2.043 (2.294) data 0.000 (0.086) loss 4.5586 (4.5534) acc 6.2500 (5.2083) lr 1.3926e-04 eta 0:01:50
+epoch [85/100] batch [1/3] time 2.300 (2.300) data 0.259 (0.259) loss 4.5625 (4.5625) acc 6.2500 (6.2500) lr 1.3926e-04 eta 0:01:48
+epoch [85/100] batch [2/3] time 2.056 (2.178) data 0.000 (0.129) loss 4.5469 (4.5547) acc 0.0000 (3.1250) lr 1.3926e-04 eta 0:01:40
+epoch [85/100] batch [3/3] time 2.238 (2.198) data 0.000 (0.086) loss 4.5625 (4.5573) acc 9.3750 (5.2083) lr 1.2369e-04 eta 0:01:38
+epoch [86/100] batch [1/3] time 2.316 (2.316) data 0.268 (0.268) loss 4.5820 (4.5820) acc 0.0000 (0.0000) lr 1.2369e-04 eta 0:01:41
+epoch [86/100] batch [2/3] time 2.064 (2.190) data 0.000 (0.134) loss 4.5625 (4.5723) acc 3.1250 (1.5625) lr 1.2369e-04 eta 0:01:34
+epoch [86/100] batch [3/3] time 2.052 (2.144) data 0.000 (0.090) loss 4.5195 (4.5547) acc 9.3750 (4.1667) lr 1.0899e-04 eta 0:01:30
+epoch [87/100] batch [1/3] time 2.593 (2.593) data 0.261 (0.261) loss 4.5469 (4.5469) acc 0.0000 (0.0000) lr 1.0899e-04 eta 0:01:46
+epoch [87/100] batch [2/3] time 2.126 (2.360) data 0.000 (0.131) loss 4.5820 (4.5645) acc 3.1250 (1.5625) lr 1.0899e-04 eta 0:01:34
+epoch [87/100] batch [3/3] time 2.040 (2.253) data 0.000 (0.087) loss 4.5664 (4.5651) acc 0.0000 (1.0417) lr 9.5173e-05 eta 0:01:27
+epoch [88/100] batch [1/3] time 2.303 (2.303) data 0.259 (0.259) loss 4.5469 (4.5469) acc 3.1250 (3.1250) lr 9.5173e-05 eta 0:01:27
+epoch [88/100] batch [2/3] time 2.048 (2.175) data 0.000 (0.130) loss 4.5508 (4.5488) acc 6.2500 (4.6875) lr 9.5173e-05 eta 0:01:20
+epoch [88/100] batch [3/3] time 2.086 (2.146) data 0.000 (0.087) loss 4.5781 (4.5586) acc 0.0000 (3.1250) lr 8.2245e-05 eta 0:01:17
+epoch [89/100] batch [1/3] time 2.358 (2.358) data 0.277 (0.277) loss 4.5312 (4.5312) acc 9.3750 (9.3750) lr 8.2245e-05 eta 0:01:22
+epoch [89/100] batch [2/3] time 2.051 (2.204) data 0.000 (0.139) loss 4.5625 (4.5469) acc 0.0000 (4.6875) lr 8.2245e-05 eta 0:01:14
+epoch [89/100] batch [3/3] time 2.060 (2.156) data 0.000 (0.092) loss 4.5781 (4.5573) acc 0.0000 (3.1250) lr 7.0224e-05 eta 0:01:11
+epoch [90/100] batch [1/3] time 2.326 (2.326) data 0.272 (0.272) loss 4.5508 (4.5508) acc 6.2500 (6.2500) lr 7.0224e-05 eta 0:01:14
+epoch [90/100] batch [2/3] time 2.058 (2.192) data 0.000 (0.136) loss 4.5703 (4.5605) acc 3.1250 (4.6875) lr 7.0224e-05 eta 0:01:07
+epoch [90/100] batch [3/3] time 2.052 (2.145) data 0.000 (0.091) loss 4.5312 (4.5508) acc 3.1250 (4.1667) lr 5.9119e-05 eta 0:01:04
+epoch [91/100] batch [1/3] time 2.298 (2.298) data 0.256 (0.256) loss 4.5312 (4.5312) acc 6.2500 (6.2500) lr 5.9119e-05 eta 0:01:06
+epoch [91/100] batch [2/3] time 2.057 (2.178) data 0.000 (0.128) loss 4.5820 (4.5566) acc 6.2500 (6.2500) lr 5.9119e-05 eta 0:01:00
+epoch [91/100] batch [3/3] time 2.228 (2.195) data 0.000 (0.086) loss 4.5703 (4.5612) acc 0.0000 (4.1667) lr 4.8943e-05 eta 0:00:59
+epoch [92/100] batch [1/3] time 2.368 (2.368) data 0.283 (0.283) loss 4.5273 (4.5273) acc 9.3750 (9.3750) lr 4.8943e-05 eta 0:01:01
+epoch [92/100] batch [2/3] time 2.207 (2.288) data 0.001 (0.142) loss 4.5820 (4.5547) acc 0.0000 (4.6875) lr 4.8943e-05 eta 0:00:57
+epoch [92/100] batch [3/3] time 2.226 (2.267) data 0.000 (0.095) loss 4.5781 (4.5625) acc 6.2500 (5.2083) lr 3.9706e-05 eta 0:00:54
+epoch [93/100] batch [1/3] time 2.328 (2.328) data 0.275 (0.275) loss 4.5352 (4.5352) acc 3.1250 (3.1250) lr 3.9706e-05 eta 0:00:53
+epoch [93/100] batch [2/3] time 2.054 (2.191) data 0.000 (0.137) loss 4.5781 (4.5566) acc 6.2500 (4.6875) lr 3.9706e-05 eta 0:00:48
+epoch [93/100] batch [3/3] time 2.052 (2.144) data 0.000 (0.092) loss 4.5508 (4.5547) acc 0.0000 (3.1250) lr 3.1417e-05 eta 0:00:45
+epoch [94/100] batch [1/3] time 2.313 (2.313) data 0.273 (0.273) loss 4.5625 (4.5625) acc 9.3750 (9.3750) lr 3.1417e-05 eta 0:00:46
+epoch [94/100] batch [2/3] time 2.047 (2.180) data 0.000 (0.136) loss 4.5664 (4.5645) acc 3.1250 (6.2500) lr 3.1417e-05 eta 0:00:41
+epoch [94/100] batch [3/3] time 2.056 (2.139) data 0.000 (0.091) loss 4.5586 (4.5625) acc 3.1250 (5.2083) lr 2.4083e-05 eta 0:00:38
+epoch [95/100] batch [1/3] time 2.322 (2.322) data 0.278 (0.278) loss 4.5586 (4.5586) acc 3.1250 (3.1250) lr 2.4083e-05 eta 0:00:39
+epoch [95/100] batch [2/3] time 2.054 (2.188) data 0.000 (0.139) loss 4.5586 (4.5586) acc 3.1250 (3.1250) lr 2.4083e-05 eta 0:00:35
+epoch [95/100] batch [3/3] time 2.057 (2.144) data 0.000 (0.093) loss 4.5625 (4.5599) acc 6.2500 (4.1667) lr 1.7713e-05 eta 0:00:32
+epoch [96/100] batch [1/3] time 2.322 (2.322) data 0.275 (0.275) loss 4.5391 (4.5391) acc 3.1250 (3.1250) lr 1.7713e-05 eta 0:00:32
+epoch [96/100] batch [2/3] time 2.053 (2.188) data 0.000 (0.138) loss 4.5430 (4.5410) acc 3.1250 (3.1250) lr 1.7713e-05 eta 0:00:28
+epoch [96/100] batch [3/3] time 2.052 (2.142) data 0.000 (0.092) loss 4.5898 (4.5573) acc 6.2500 (4.1667) lr 1.2312e-05 eta 0:00:25
+epoch [97/100] batch [1/3] time 2.305 (2.305) data 0.259 (0.259) loss 4.5469 (4.5469) acc 6.2500 (6.2500) lr 1.2312e-05 eta 0:00:25
+epoch [97/100] batch [2/3] time 2.052 (2.178) data 0.000 (0.130) loss 4.5586 (4.5527) acc 6.2500 (6.2500) lr 1.2312e-05 eta 0:00:21
+epoch [97/100] batch [3/3] time 2.059 (2.139) data 0.000 (0.087) loss 4.5352 (4.5469) acc 3.1250 (5.2083) lr 7.8853e-06 eta 0:00:19
+epoch [98/100] batch [1/3] time 2.316 (2.316) data 0.270 (0.270) loss 4.5352 (4.5352) acc 6.2500 (6.2500) lr 7.8853e-06 eta 0:00:18
+epoch [98/100] batch [2/3] time 2.054 (2.185) data 0.000 (0.135) loss 4.5586 (4.5469) acc 3.1250 (4.6875) lr 7.8853e-06 eta 0:00:15
+epoch [98/100] batch [3/3] time 2.046 (2.139) data 0.000 (0.090) loss 4.5820 (4.5586) acc 3.1250 (4.1667) lr 4.4380e-06 eta 0:00:12
+epoch [99/100] batch [1/3] time 2.318 (2.318) data 0.273 (0.273) loss 4.5508 (4.5508) acc 3.1250 (3.1250) lr 4.4380e-06 eta 0:00:11
+epoch [99/100] batch [2/3] time 2.056 (2.187) data 0.000 (0.137) loss 4.5469 (4.5488) acc 12.5000 (7.8125) lr 4.4380e-06 eta 0:00:08
+epoch [99/100] batch [3/3] time 2.052 (2.142) data 0.000 (0.091) loss 4.5547 (4.5508) acc 0.0000 (5.2083) lr 1.9733e-06 eta 0:00:06
+epoch [100/100] batch [1/3] time 2.317 (2.317) data 0.280 (0.280) loss 4.5430 (4.5430) acc 0.0000 (0.0000) lr 1.9733e-06 eta 0:00:04
+epoch [100/100] batch [2/3] time 2.057 (2.187) data 0.000 (0.140) loss 4.5547 (4.5488) acc 6.2500 (3.1250) lr 1.9733e-06 eta 0:00:02
+epoch [100/100] batch [3/3] time 2.054 (2.143) data 0.000 (0.093) loss 4.5586 (4.5521) acc 3.1250 (3.1250) lr 4.9344e-07 eta 0:00:00
+Checkpoint saved to output/Caltech/1/prompt_learner/model.pth.tar-100
+Finish training
+Deploy the last-epoch model
+Evaluate on the *test* set
+=> result
+* total: 2,465
+* correct: 111
+* accuracy: 4.5%
+* error: 95.5%
+* macro_f1: 2.5%
+Elapsed: 0:11:32
+args2: backbone=, config_file=configs/trainers/CoOp/rn50_ep100.yaml, dataset_config_file=configs/datasets/caltech101.yaml, eval_only=False, head=, load_epoch=None, model_dir=, no_train=False,  opts: ['TRAINER.COOP.N_CTX', '16', 'TRAINER.COOP.CSC', 'False', 'TRAINER.COOP.CLASS_TOKEN_POSITION', 'end', 'DATASET.NUM_SHOTS', '1'], output_dir=output/Caltech/1/2, resume=, root=/home/brandnerkasper/Uni/MP/MP_CustomCoOp/data, seed=2, source_domains=None, target_domains=None, trainer=CoOp, transforms=None
+Setting fixed seed: 2
+***************
+** Arguments **
+***************
+config_file: configs/trainers/CoOp/rn50_ep100.yaml
+csc: False
+ctp: end
+dataset_config_file: configs/datasets/caltech101.yaml
+n_ctx: 16
+opts: ['TRAINER.COOP.N_CTX', '16', 'TRAINER.COOP.CSC', 'False', 'TRAINER.COOP.CLASS_TOKEN_POSITION', 'end', 'DATASET.NUM_SHOTS', '1']
+output_dir: output/Caltech/1/2
+root: /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data
+seed: 2
+shots: 1
+trainer: CoOp
+************
+** Config **
+************
+DATALOADER:
+  K_TRANSFORMS: 1
+  NUM_WORKERS: 4
+  RETURN_IMG0: False
+  TEST:
+    BATCH_SIZE: 100
+    SAMPLER: SequentialSampler
+  TRAIN_U:
+    BATCH_SIZE: 32
+    N_DOMAIN: 0
+    N_INS: 16
+    SAME_AS_X: True
+    SAMPLER: RandomSampler
+  TRAIN_X:
+    BATCH_SIZE: 32
+    N_DOMAIN: 0
+    N_INS: 16
+    SAMPLER: RandomSampler
+DATASET:
+  ALL_AS_UNLABELED: False
+  CIFAR_C_LEVEL: 1
+  CIFAR_C_TYPE: 
+  NAME: Caltech101
+  NUM_LABELED: -1
+  NUM_SHOTS: 1
+  ROOT: /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data
+  SOURCE_DOMAINS: ()
+  STL10_FOLD: -1
+  SUBSAMPLE_CLASSES: all
+  TARGET_DOMAINS: ()
+  VAL_PERCENT: 0.1
+INPUT:
+  COLORJITTER_B: 0.4
+  COLORJITTER_C: 0.4
+  COLORJITTER_H: 0.1
+  COLORJITTER_S: 0.4
+  CROP_PADDING: 4
+  CUTOUT_LEN: 16
+  CUTOUT_N: 1
+  GB_K: 21
+  GB_P: 0.5
+  GN_MEAN: 0.0
+  GN_STD: 0.15
+  INTERPOLATION: bicubic
+  NO_TRANSFORM: False
+  PIXEL_MEAN: [0.48145466, 0.4578275, 0.40821073]
+  PIXEL_STD: [0.26862954, 0.26130258, 0.27577711]
+  RANDAUGMENT_M: 10
+  RANDAUGMENT_N: 2
+  RGS_P: 0.2
+  RRCROP_SCALE: (0.08, 1.0)
+  SIZE: (224, 224)
+  TRANSFORMS: ('random_resized_crop', 'random_flip', 'normalize')
+MODEL:
+  BACKBONE:
+    NAME: RN50
+    PRETRAINED: True
+  HEAD:
+    ACTIVATION: relu
+    BN: True
+    DROPOUT: 0.0
+    HIDDEN_LAYERS: ()
+    NAME: 
+  INIT_WEIGHTS: 
+OPTIM:
+  ADAM_BETA1: 0.9
+  ADAM_BETA2: 0.999
+  BASE_LR_MULT: 0.1
+  GAMMA: 0.1
+  LR: 0.002
+  LR_SCHEDULER: cosine
+  MAX_EPOCH: 100
+  MOMENTUM: 0.9
+  NAME: sgd
+  NEW_LAYERS: ()
+  RMSPROP_ALPHA: 0.99
+  SGD_DAMPNING: 0
+  SGD_NESTEROV: False
+  STAGED_LR: False
+  STEPSIZE: (-1,)
+  WARMUP_CONS_LR: 1e-05
+  WARMUP_EPOCH: 1
+  WARMUP_MIN_LR: 1e-05
+  WARMUP_RECOUNT: True
+  WARMUP_TYPE: constant
+  WEIGHT_DECAY: 0.0005
+OUTPUT_DIR: output/Caltech/1/2
+RESUME: 
+SEED: 2
+TEST:
+  COMPUTE_CMAT: False
+  EVALUATOR: Classification
+  FINAL_MODEL: last_step
+  NO_TEST: False
+  PER_CLASS_RESULT: False
+  SPLIT: test
+TRAIN:
+  CHECKPOINT_FREQ: 0
+  COUNT_ITER: train_x
+  PRINT_FREQ: 5
+TRAINER:
+  CDAC:
+    CLASS_LR_MULTI: 10
+    P_THRESH: 0.95
+    RAMPUP_COEF: 30
+    RAMPUP_ITRS: 1000
+    STRONG_TRANSFORMS: ()
+    TOPK_MATCH: 5
+  COCOOP:
+    CTX_INIT: 
+    N_CTX: 16
+    PREC: fp16
+  COOP:
+    CLASS_TOKEN_POSITION: end
+    CSC: False
+    CTX_INIT: 
+    N_CTX: 16
+    PREC: fp16
+  CROSSGRAD:
+    ALPHA_D: 0.5
+    ALPHA_F: 0.5
+    EPS_D: 1.0
+    EPS_F: 1.0
+  DAEL:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DAELDG:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DDAIG:
+    ALPHA: 0.5
+    CLAMP: False
+    CLAMP_MAX: 1.0
+    CLAMP_MIN: -1.0
+    G_ARCH: 
+    LMDA: 0.3
+    WARMUP: 0
+  DOMAINMIX:
+    ALPHA: 1.0
+    BETA: 1.0
+    TYPE: crossdomain
+  ENTMIN:
+    LMDA: 0.001
+  FIXMATCH:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 1.0
+  M3SDA:
+    LMDA: 0.5
+    N_STEP_F: 4
+  MCD:
+    N_STEP_F: 4
+  MEANTEACHER:
+    EMA_ALPHA: 0.999
+    RAMPUP: 5
+    WEIGHT_U: 1.0
+  MIXMATCH:
+    MIXUP_BETA: 0.75
+    RAMPUP: 20000
+    TEMP: 2.0
+    WEIGHT_U: 100.0
+  MME:
+    LMDA: 0.1
+  NAME: CoOp
+  SE:
+    CONF_THRE: 0.95
+    EMA_ALPHA: 0.999
+    RAMPUP: 300
+USE_CUDA: True
+VERBOSE: True
+VERSION: 1
+Collecting env info ...
+** System info **
+PyTorch version: 2.0.1
+Is debug build: False
+CUDA used to build PyTorch: 11.7
+ROCM used to build PyTorch: N/A
+
+OS: Ubuntu 22.04.3 LTS (x86_64)
+GCC version: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
+Clang version: Could not collect
+CMake version: Could not collect
+Libc version: glibc-2.35
+
+Python version: 3.10.12 (main, Jul  5 2023, 18:54:27) [GCC 11.2.0] (64-bit runtime)
+Python platform: Linux-6.2.0-32-generic-x86_64-with-glibc2.35
+Is CUDA available: True
+CUDA runtime version: 11.5.119
+CUDA_MODULE_LOADING set to: LAZY
+GPU models and configuration: GPU 0: NVIDIA GeForce GTX 970
+Nvidia driver version: 525.125.06
+cuDNN version: Could not collect
+HIP runtime version: N/A
+MIOpen runtime version: N/A
+Is XNNPACK available: True
+
+CPU:
+Architecture:                       x86_64
+CPU op-mode(s):                     32-bit, 64-bit
+Address sizes:                      39 bits physical, 48 bits virtual
+Byte Order:                         Little Endian
+CPU(s):                             4
+On-line CPU(s) list:                0-3
+Vendor ID:                          GenuineIntel
+Model name:                         Intel(R) Xeon(R) CPU E3-1225 v3 @ 3.20GHz
+CPU family:                         6
+Model:                              60
+Thread(s) per core:                 1
+Core(s) per socket:                 4
+Socket(s):                          1
+Stepping:                           3
+CPU max MHz:                        3600,0000
+CPU min MHz:                        800,0000
+BogoMIPS:                           6397.79
+Flags:                              fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm ida arat pln pts md_clear flush_l1d
+Virtualization:                     VT-x
+L1d cache:                          128 KiB (4 instances)
+L1i cache:                          128 KiB (4 instances)
+L2 cache:                           1 MiB (4 instances)
+L3 cache:                           8 MiB (1 instance)
+NUMA node(s):                       1
+NUMA node0 CPU(s):                  0-3
+Vulnerability Gather data sampling: Not affected
+Vulnerability Itlb multihit:        KVM: Mitigation: VMX disabled
+Vulnerability L1tf:                 Mitigation; PTE Inversion; VMX conditional cache flushes, SMT disabled
+Vulnerability Mds:                  Mitigation; Clear CPU buffers; SMT disabled
+Vulnerability Meltdown:             Mitigation; PTI
+Vulnerability Mmio stale data:      Unknown: No mitigations
+Vulnerability Retbleed:             Not affected
+Vulnerability Spec store bypass:    Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:           Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:           Mitigation; Retpolines, IBPB conditional, IBRS_FW, STIBP disabled, RSB filling, PBRSB-eIBRS Not affected
+Vulnerability Srbds:                Mitigation; Microcode
+Vulnerability Tsx async abort:      Not affected
+
+Versions of relevant libraries:
+[pip3] numpy==1.25.2
+[pip3] open-clip-torch==2.20.0
+[pip3] torch==2.0.1
+[pip3] torchaudio==2.0.2
+[pip3] torchvision==0.15.2
+[conda] blas                      1.0                         mkl  
+[conda] ffmpeg                    4.3                  hf484d3e_0    pytorch
+[conda] mkl                       2023.1.0         h213fc3f_46343  
+[conda] mkl-service               2.4.0           py310h5eee18b_1  
+[conda] mkl_fft                   1.3.6           py310h1128e8f_1  
+[conda] mkl_random                1.2.2           py310h1128e8f_1  
+[conda] numpy                     1.25.2          py310h5f9d8c6_0  
+[conda] numpy-base                1.25.2          py310hb5e798b_0  
+[conda] open-clip-torch           2.20.0                   pypi_0    pypi
+[conda] pytorch                   2.0.1           py3.10_cuda11.7_cudnn8.5.0_0    pytorch
+[conda] pytorch-cuda              11.7                 h778d358_5    pytorch
+[conda] pytorch-mutex             1.0                        cuda    pytorch
+[conda] torchaudio                2.0.2               py310_cu117    pytorch
+[conda] torchtriton               2.0.0                     py310    pytorch
+[conda] torchvision               0.15.2              py310_cu117    pytorch
+        Pillow (9.4.0)
+
+Loading trainer: CoOp
+Loading dataset: Caltech101
+Reading split from /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data/caltech-101/split_zhou_Caltech101.json
+Creating a 1-shot dataset
+Creating a 1-shot dataset
+Saving preprocessed few-shot data to /home/brandnerkasper/Uni/MP/MP_CustomCoOp/data/caltech-101/split_fewshot/shot_1-seed_2.pkl
+Building transform_train
++ random resized crop (size=(224, 224), scale=(0.08, 1.0))
++ random flip
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.48145466, 0.4578275, 0.40821073], std=[0.26862954, 0.26130258, 0.27577711])
+Building transform_test
++ resize the smaller edge to 224
++ 224x224 center crop
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.48145466, 0.4578275, 0.40821073], std=[0.26862954, 0.26130258, 0.27577711])
+---------  ----------
+Dataset    Caltech101
+# classes  100
+# train_x  100
+# val      100
+# test     2,465
+---------  ----------
+Loading CLIP (backbone: RN50)
+CLIP(
+  (visual): ModifiedResNet(
+    (conv1): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+    (bn1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (act1): ReLU(inplace=True)
+    (conv2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (act2): ReLU(inplace=True)
+    (conv3): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn3): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (act3): ReLU(inplace=True)
+    (avgpool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (layer1): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+        (downsample): Sequential(
+          (-1): AvgPool2d(kernel_size=1, stride=1, padding=0)
+          (0): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+    )
+    (layer2): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+        (downsample): Sequential(
+          (-1): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (3): Bottleneck(
+        (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+    )
+    (layer3): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+        (downsample): Sequential(
+          (-1): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (0): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (1): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (3): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (4): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (5): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+    )
+    (layer4): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+        (downsample): Sequential(
+          (-1): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (0): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (1): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): ReLU(inplace=True)
+        (avgpool): Identity()
+        (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act3): ReLU(inplace=True)
+      )
+    )
+    (attnpool): AttentionPool2d(
+      (k_proj): Linear(in_features=2048, out_features=2048, bias=True)
+      (q_proj): Linear(in_features=2048, out_features=2048, bias=True)
+      (v_proj): Linear(in_features=2048, out_features=2048, bias=True)
+      (c_proj): Linear(in_features=2048, out_features=1024, bias=True)
+    )
+  )
+  (transformer): Transformer(
+    (resblocks): ModuleList(
+      (0-11): 12 x ResidualAttentionBlock(
+        (ln_1): LayerNormFp32((512,), eps=1e-05, elementwise_affine=True)
+        (attn): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+        )
+        (ls_1): Identity()
+        (ln_2): LayerNormFp32((512,), eps=1e-05, elementwise_affine=True)
+        (mlp): Sequential(
+          (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+          (gelu): QuickGELU()
+          (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+        )
+        (ls_2): Identity()
+      )
+    )
+  )
+  (token_embedding): Embedding(49408, 512)
+  (ln_final): LayerNormFp32((512,), eps=1e-05, elementwise_affine=True)
+)
+Building custom CLIP
+Initializing a generic context
+Initial context: "X X X X X X X X X X X X X X X X"
+Number of context words (tokens): 16
+Turning off gradients in both the image and the text encoder
+Loading evaluator: Classification
+No checkpoint found, train from scratch
+Initialize tensorboard (log_dir=output/Caltech/1/2/tensorboard)
+epoch [1/100] batch [1/3] time 2.323 (2.323) data 0.323 (0.323) loss 4.5469 (4.5469) acc 3.1250 (3.1250) lr 1.0000e-05 eta 0:11:34
+epoch [1/100] batch [2/3] time 1.977 (2.150) data 0.000 (0.161) loss 4.5273 (4.5371) acc 6.2500 (4.6875) lr 1.0000e-05 eta 0:10:40
+epoch [1/100] batch [3/3] time 1.979 (2.093) data 0.000 (0.108) loss 4.5430 (4.5391) acc 0.0000 (3.1250) lr 2.0000e-03 eta 0:10:21
+epoch [2/100] batch [1/3] time 2.278 (2.278) data 0.302 (0.302) loss 4.5352 (4.5352) acc 0.0000 (0.0000) lr 2.0000e-03 eta 0:11:14
+epoch [2/100] batch [2/3] time 1.982 (2.130) data 0.000 (0.151) loss 4.5586 (4.5469) acc 9.3750 (4.6875) lr 2.0000e-03 eta 0:10:28
+epoch [2/100] batch [3/3] time 1.992 (2.084) data 0.000 (0.101) loss 4.5391 (4.5443) acc 3.1250 (4.1667) lr 1.9995e-03 eta 0:10:12
+epoch [3/100] batch [1/3] time 2.298 (2.298) data 0.302 (0.302) loss 4.5586 (4.5586) acc 6.2500 (6.2500) lr 1.9995e-03 eta 0:11:13
+epoch [3/100] batch [2/3] time 2.006 (2.152) data 0.000 (0.151) loss 4.5312 (4.5449) acc 9.3750 (7.8125) lr 1.9995e-03 eta 0:10:28
+epoch [3/100] batch [3/3] time 2.007 (2.104) data 0.000 (0.101) loss 4.5625 (4.5508) acc 0.0000 (5.2083) lr 1.9980e-03 eta 0:10:12
+epoch [4/100] batch [1/3] time 2.309 (2.309) data 0.294 (0.294) loss 4.5430 (4.5430) acc 9.3750 (9.3750) lr 1.9980e-03 eta 0:11:09
+epoch [4/100] batch [2/3] time 2.017 (2.163) data 0.000 (0.147) loss 4.5703 (4.5566) acc 0.0000 (4.6875) lr 1.9980e-03 eta 0:10:25
+epoch [4/100] batch [3/3] time 2.044 (2.123) data 0.000 (0.098) loss 4.5586 (4.5573) acc 9.3750 (6.2500) lr 1.9956e-03 eta 0:10:11
+epoch [5/100] batch [1/3] time 2.378 (2.378) data 0.333 (0.333) loss 4.5625 (4.5625) acc 3.1250 (3.1250) lr 1.9956e-03 eta 0:11:22
+epoch [5/100] batch [2/3] time 2.045 (2.212) data 0.000 (0.167) loss 4.5820 (4.5723) acc 3.1250 (3.1250) lr 1.9956e-03 eta 0:10:32
+epoch [5/100] batch [3/3] time 2.053 (2.159) data 0.000 (0.111) loss 4.5547 (4.5664) acc 0.0000 (2.0833) lr 1.9921e-03 eta 0:10:15
+epoch [6/100] batch [1/3] time 2.414 (2.414) data 0.378 (0.378) loss 4.5742 (4.5742) acc 0.0000 (0.0000) lr 1.9921e-03 eta 0:11:25
+epoch [6/100] batch [2/3] time 2.025 (2.219) data 0.000 (0.189) loss 4.5586 (4.5664) acc 3.1250 (1.5625) lr 1.9921e-03 eta 0:10:28
+epoch [6/100] batch [3/3] time 2.183 (2.207) data 0.000 (0.126) loss 4.5703 (4.5677) acc 6.2500 (3.1250) lr 1.9877e-03 eta 0:10:22
+epoch [7/100] batch [1/3] time 2.371 (2.371) data 0.319 (0.319) loss 4.5703 (4.5703) acc 3.1250 (3.1250) lr 1.9877e-03 eta 0:11:06
+epoch [7/100] batch [2/3] time 2.056 (2.213) data 0.000 (0.160) loss 4.5625 (4.5664) acc 12.5000 (7.8125) lr 1.9877e-03 eta 0:10:19
+epoch [7/100] batch [3/3] time 2.052 (2.159) data 0.000 (0.107) loss 4.5742 (4.5690) acc 0.0000 (5.2083) lr 1.9823e-03 eta 0:10:02
+epoch [8/100] batch [1/3] time 2.318 (2.318) data 0.301 (0.301) loss 4.5781 (4.5781) acc 3.1250 (3.1250) lr 1.9823e-03 eta 0:10:44
+epoch [8/100] batch [2/3] time 2.046 (2.182) data 0.000 (0.151) loss 4.5664 (4.5723) acc 0.0000 (1.5625) lr 1.9823e-03 eta 0:10:04
+epoch [8/100] batch [3/3] time 2.062 (2.142) data 0.000 (0.101) loss 4.5586 (4.5677) acc 9.3750 (4.1667) lr 1.9759e-03 eta 0:09:51
+epoch [9/100] batch [1/3] time 2.400 (2.400) data 0.343 (0.343) loss 4.5742 (4.5742) acc 6.2500 (6.2500) lr 1.9759e-03 eta 0:11:00
+epoch [9/100] batch [2/3] time 2.036 (2.218) data 0.000 (0.172) loss 4.5625 (4.5684) acc 3.1250 (4.6875) lr 1.9759e-03 eta 0:10:07
+epoch [9/100] batch [3/3] time 2.044 (2.160) data 0.000 (0.115) loss 4.5625 (4.5664) acc 6.2500 (5.2083) lr 1.9686e-03 eta 0:09:49
+epoch [10/100] batch [1/3] time 2.409 (2.409) data 0.332 (0.332) loss 4.5742 (4.5742) acc 6.2500 (6.2500) lr 1.9686e-03 eta 0:10:55
+epoch [10/100] batch [2/3] time 2.061 (2.235) data 0.000 (0.166) loss 4.5703 (4.5723) acc 3.1250 (4.6875) lr 1.9686e-03 eta 0:10:05
+epoch [10/100] batch [3/3] time 2.077 (2.182) data 0.000 (0.111) loss 4.5781 (4.5742) acc 3.1250 (4.1667) lr 1.9603e-03 eta 0:09:49
+epoch [11/100] batch [1/3] time 2.368 (2.368) data 0.311 (0.311) loss 4.5625 (4.5625) acc 6.2500 (6.2500) lr 1.9603e-03 eta 0:10:36
+epoch [11/100] batch [2/3] time 2.049 (2.208) data 0.000 (0.156) loss 4.5820 (4.5723) acc 3.1250 (4.6875) lr 1.9603e-03 eta 0:09:51
+epoch [11/100] batch [3/3] time 2.060 (2.159) data 0.000 (0.104) loss 4.5469 (4.5638) acc 9.3750 (6.2500) lr 1.9511e-03 eta 0:09:36
+epoch [12/100] batch [1/3] time 2.404 (2.404) data 0.346 (0.346) loss 4.5703 (4.5703) acc 6.2500 (6.2500) lr 1.9511e-03 eta 0:10:39
+epoch [12/100] batch [2/3] time 2.052 (2.228) data 0.000 (0.173) loss 4.5820 (4.5762) acc 0.0000 (3.1250) lr 1.9511e-03 eta 0:09:50
+epoch [12/100] batch [3/3] time 2.025 (2.160) data 0.000 (0.115) loss 4.5664 (4.5729) acc 0.0000 (2.0833) lr 1.9409e-03 eta 0:09:30
+epoch [13/100] batch [1/3] time 2.349 (2.349) data 0.296 (0.296) loss 4.5625 (4.5625) acc 9.3750 (9.3750) lr 1.9409e-03 eta 0:10:17
+epoch [13/100] batch [2/3] time 2.033 (2.191) data 0.000 (0.148) loss 4.5820 (4.5723) acc 3.1250 (6.2500) lr 1.9409e-03 eta 0:09:33
+epoch [13/100] batch [3/3] time 2.050 (2.144) data 0.000 (0.099) loss 4.5820 (4.5755) acc 3.1250 (5.2083) lr 1.9298e-03 eta 0:09:19
+epoch [14/100] batch [1/3] time 2.430 (2.430) data 0.366 (0.366) loss 4.5703 (4.5703) acc 3.1250 (3.1250) lr 1.9298e-03 eta 0:10:31
+epoch [14/100] batch [2/3] time 2.061 (2.246) data 0.000 (0.183) loss 4.5820 (4.5762) acc 3.1250 (3.1250) lr 1.9298e-03 eta 0:09:41
+epoch [14/100] batch [3/3] time 2.040 (2.177) data 0.000 (0.122) loss 4.5820 (4.5781) acc 0.0000 (2.0833) lr 1.9178e-03 eta 0:09:21
+epoch [15/100] batch [1/3] time 2.368 (2.368) data 0.309 (0.309) loss 4.5703 (4.5703) acc 6.2500 (6.2500) lr 1.9178e-03 eta 0:10:08
+epoch [15/100] batch [2/3] time 2.053 (2.210) data 0.000 (0.155) loss 4.5664 (4.5684) acc 6.2500 (6.2500) lr 1.9178e-03 eta 0:09:25
+epoch [15/100] batch [3/3] time 2.065 (2.162) data 0.000 (0.103) loss 4.5781 (4.5716) acc 3.1250 (5.2083) lr 1.9048e-03 eta 0:09:11
+epoch [16/100] batch [1/3] time 2.353 (2.353) data 0.303 (0.303) loss 4.5820 (4.5820) acc 3.1250 (3.1250) lr 1.9048e-03 eta 0:09:57
+epoch [16/100] batch [2/3] time 2.057 (2.205) data 0.000 (0.151) loss 4.5781 (4.5801) acc 0.0000 (1.5625) lr 1.9048e-03 eta 0:09:17
+epoch [16/100] batch [3/3] time 2.030 (2.146) data 0.000 (0.101) loss 4.5547 (4.5716) acc 6.2500 (3.1250) lr 1.8910e-03 eta 0:09:00
+epoch [17/100] batch [1/3] time 2.351 (2.351) data 0.308 (0.308) loss 4.5898 (4.5898) acc 0.0000 (0.0000) lr 1.8910e-03 eta 0:09:50
+epoch [17/100] batch [2/3] time 2.010 (2.180) data 0.000 (0.154) loss 4.5586 (4.5742) acc 6.2500 (3.1250) lr 1.8910e-03 eta 0:09:05
+epoch [17/100] batch [3/3] time 2.014 (2.125) data 0.000 (0.103) loss 4.5742 (4.5742) acc 3.1250 (3.1250) lr 1.8763e-03 eta 0:08:49
+epoch [18/100] batch [1/3] time 2.330 (2.330) data 0.304 (0.304) loss 4.5664 (4.5664) acc 6.2500 (6.2500) lr 1.8763e-03 eta 0:09:37
+epoch [18/100] batch [2/3] time 2.073 (2.201) data 0.000 (0.152) loss 4.5859 (4.5762) acc 0.0000 (3.1250) lr 1.8763e-03 eta 0:09:03
+epoch [18/100] batch [3/3] time 2.093 (2.165) data 0.000 (0.101) loss 4.5664 (4.5729) acc 6.2500 (4.1667) lr 1.8607e-03 eta 0:08:52
+epoch [19/100] batch [1/3] time 2.410 (2.410) data 0.310 (0.310) loss 4.5703 (4.5703) acc 6.2500 (6.2500) lr 1.8607e-03 eta 0:09:50
+epoch [19/100] batch [2/3] time 2.063 (2.237) data 0.000 (0.155) loss 4.5703 (4.5703) acc 3.1250 (4.6875) lr 1.8607e-03 eta 0:09:05
+epoch [19/100] batch [3/3] time 2.019 (2.164) data 0.000 (0.104) loss 4.5703 (4.5703) acc 0.0000 (3.1250) lr 1.8443e-03 eta 0:08:45
+epoch [20/100] batch [1/3] time 2.357 (2.357) data 0.326 (0.326) loss 4.5820 (4.5820) acc 3.1250 (3.1250) lr 1.8443e-03 eta 0:09:30
+epoch [20/100] batch [2/3] time 2.021 (2.189) data 0.000 (0.163) loss 4.5742 (4.5781) acc 0.0000 (1.5625) lr 1.8443e-03 eta 0:08:47
+epoch [20/100] batch [3/3] time 2.021 (2.133) data 0.000 (0.109) loss 4.5820 (4.5794) acc 0.0000 (1.0417) lr 1.8271e-03 eta 0:08:31
+epoch [21/100] batch [1/3] time 2.395 (2.395) data 0.319 (0.319) loss 4.5781 (4.5781) acc 3.1250 (3.1250) lr 1.8271e-03 eta 0:09:32
+epoch [21/100] batch [2/3] time 2.085 (2.240) data 0.000 (0.160) loss 4.5703 (4.5742) acc 9.3750 (6.2500) lr 1.8271e-03 eta 0:08:53
+epoch [21/100] batch [3/3] time 2.064 (2.181) data 0.001 (0.107) loss 4.5859 (4.5781) acc 0.0000 (4.1667) lr 1.8090e-03 eta 0:08:36
+epoch [22/100] batch [1/3] time 2.437 (2.437) data 0.402 (0.402) loss 4.5664 (4.5664) acc 6.2500 (6.2500) lr 1.8090e-03 eta 0:09:35
+epoch [22/100] batch [2/3] time 2.044 (2.240) data 0.000 (0.201) loss 4.5898 (4.5781) acc 0.0000 (3.1250) lr 1.8090e-03 eta 0:08:46
+epoch [22/100] batch [3/3] time 2.230 (2.237) data 0.000 (0.134) loss 4.5586 (4.5716) acc 6.2500 (4.1667) lr 1.7902e-03 eta 0:08:43
+epoch [23/100] batch [1/3] time 2.742 (2.742) data 0.424 (0.424) loss 4.5938 (4.5938) acc 0.0000 (0.0000) lr 1.7902e-03 eta 0:10:38
+epoch [23/100] batch [2/3] time 2.144 (2.443) data 0.000 (0.212) loss 4.5820 (4.5879) acc 0.0000 (0.0000) lr 1.7902e-03 eta 0:09:26
