@@ -63,7 +63,7 @@ python train.py $DATA rn50
 ```
 2. With the new open clip models:
 ```
-python train.py $DATA xlm-roberta-large-vit-h14 --open_Clip --pretrained frozen_laion5b_s13b_b90k
+python train.py $DATA roberta-vit-b32 --shots 16 --open_Clip --pretrained laion2b_s12b_b32k
 ```
 You can also use the same models as the original clip but from the open clip repository
 ```
